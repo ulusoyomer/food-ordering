@@ -12,7 +12,11 @@
 }
 
 .header {
-	@apply bg-primary px-2 py-5 flex justify-between min-h-[9rem];
+	@apply bg-primary;
+}
+
+.header__container {
+	@apply container mx-auto flex items-center justify-between min-h-[9rem];
 }
 
 .header .header__menu--list {
