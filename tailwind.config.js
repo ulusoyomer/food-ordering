@@ -16,6 +16,7 @@ module.exports = {
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],
+				dancing: ['Dancing Script', 'cursive'],
 			},
 		},
 	},

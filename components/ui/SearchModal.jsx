@@ -4,6 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
+import TitlePrimary from './TitlePrimary';
 const SearchModal = () => {
 	const { isModalOpen } = useSelector((store) => store.searchModal);
 	const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const SearchModal = () => {
 						<FaWindowClose />
 					</button>
 					<div className="modal__header">
-						<h1>Arama</h1>
+						<TitlePrimary>Arama</TitlePrimary>
 					</div>
 					<div className="modal__content">
 						<div className="modal__search">
@@ -35,60 +36,56 @@ const SearchModal = () => {
 						<ul>
 							<li>
 								<Link href="#">
-									<Image
-										src="https://via.placeholder.com/50"
-										alt="search"
-										width={50}
-										height={50}
-									/>
+									<div className="modal__food-img">
+										<Image
+											src="/images/f1.png"
+											alt="food_name"
+											width={52}
+											height={52}
+										/>
+									</div>
 									<div className="modal__food-name">Yemek Adı</div>
 									<div className="modal__food-price">10 &#8378;</div>
 								</Link>
 							</li>
 							<li>
 								<Link href="#">
-									<Image
-										src="https://via.placeholder.com/50"
-										alt="search"
-										width={50}
-										height={50}
-									/>
+									<div className="modal__food-img">
+										<Image
+											src="/images/f2.png"
+											alt="food_name"
+											width={52}
+											height={52}
+										/>
+									</div>
 									<div className="modal__food-name">Yemek Adı</div>
 									<div className="modal__food-price">10 &#8378;</div>
 								</Link>
 							</li>
 							<li>
 								<Link href="#">
-									<Image
-										src="https://via.placeholder.com/50"
-										alt="search"
-										width={50}
-										height={50}
-									/>
+									<div className="modal__food-img">
+										<Image
+											src="/images/f3.png"
+											alt="food_name"
+											width={52}
+											height={52}
+										/>
+									</div>
 									<div className="modal__food-name">Yemek Adı</div>
 									<div className="modal__food-price">10 &#8378;</div>
 								</Link>
 							</li>
 							<li>
 								<Link href="#">
-									<Image
-										src="https://via.placeholder.com/50"
-										alt="search"
-										width={50}
-										height={50}
-									/>
-									<div className="modal__food-name">Yemek Adı</div>
-									<div className="modal__food-price">10 &#8378;</div>
-								</Link>
-							</li>
-							<li>
-								<Link href="#">
-									<Image
-										src="https://via.placeholder.com/50"
-										alt="search"
-										width={50}
-										height={50}
-									/>
+									<div className="modal__food-img">
+										<Image
+											src="/images/f4.png"
+											alt="food_name"
+											width={52}
+											height={52}
+										/>
+									</div>
 									<div className="modal__food-name">Yemek Adı</div>
 									<div className="modal__food-price">10 &#8378;</div>
 								</Link>
