@@ -1,6 +1,8 @@
 import Header from '@/components/layout/Header';
 import Head from 'next/head';
-import Home from './home';
+import SearchModal from '../components/ui/SearchModal';
+import { Provider } from 'react-redux';
+import store from 'redux/store';
 
 export default function Index() {
 	return (
@@ -14,7 +16,10 @@ export default function Index() {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Header />
+			<Provider store={store}>
+				<SearchModal />
+				<Header />
+			</Provider>
 		</>
 	);
 }

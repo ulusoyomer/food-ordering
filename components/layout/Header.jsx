@@ -1,7 +1,10 @@
+import { openModal } from '@/redux/reducers/searchModalSlice';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUserAlt, FaShoppingCart, FaSearch } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 const Header = () => {
+	const dispatch = useDispatch();
 	return (
 		<nav className="header">
 			<div className="header__container">
@@ -33,12 +36,16 @@ const Header = () => {
 					<Link className="header_buttons--link" href="#">
 						<FaShoppingCart />
 					</Link>
-					<Link className="header_buttons--link" href="#">
+					<button
+						onClick={() => dispatch(openModal())}
+						type="button"
+						className="header_buttons--link"
+					>
 						<FaSearch />
-					</Link>
-					<Link className="btn btn-secondary" href="#">
+					</button>
+					<button type="button" className="btn btn-secondary">
 						Online Sipariş
-					</Link>
+					</button>
 				</div>
 			</div>
 		</nav>
