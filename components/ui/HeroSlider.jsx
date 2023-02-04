@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { Autoplay } from 'swiper';
 import { useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import 'swiper/css';
 
@@ -59,9 +60,12 @@ const HeroSlider = () => {
 								</div>
 								<div className="hero-slider__slider--image">
 									<Link href="#">
-										<img
+										<Image
 											src="/images/burger_slide.png"
 											alt="food_name"
+											width={500}
+											height={500}
+											priority={true}
 										/>
 									</Link>
 								</div>
@@ -86,9 +90,12 @@ const HeroSlider = () => {
 								</div>
 								<div className="hero-slider__slider--image">
 									<Link href="#">
-										<img
+										<Image
 											src="/images/burger_slide.png"
 											alt="food_name"
+											width={500}
+											height={500}
+											loading="lazy"
 										/>
 									</Link>
 								</div>
