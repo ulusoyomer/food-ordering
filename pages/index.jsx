@@ -3,6 +3,7 @@ import Head from 'next/head';
 import SearchModal from '../components/ui/SearchModal';
 import { Provider } from 'react-redux';
 import store from 'redux/store';
+import HeroSlider from '@/components/ui/HeroSlider';
 
 export default function Index() {
 	return (
@@ -19,6 +20,8 @@ export default function Index() {
 			<Provider store={store}>
 				<SearchModal />
 				<Header />
+				<HeroSlider />
+				<div>asdasdasdasdasd</div>
 			</Provider>
 		</>
 	);
