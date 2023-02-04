@@ -1,10 +1,13 @@
 import React from 'react';
+import HeroSlider from '@/components/ui/HeroSlider';
+import Campaigns from '@/components/ui/Campaigns';
 
 const Index = () => {
 	return (
-		<div className="text-red-500 font-dancing text-3xl text-center">
-			Feane
-		</div>
+		<>
+			<HeroSlider />
+			<Campaigns />
+		</>
 	);
 };
 

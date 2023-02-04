@@ -6,6 +6,9 @@ module.exports = {
 	],
 	theme: {
 		extend: {
+			boxShadow: {
+				'campaigns-shadow': 'inset 0 10px 30px -16px #000',
+			},
 			colors: {
 				primary: '#212020;',
 				secondary: '#d8b00f',
