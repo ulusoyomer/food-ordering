@@ -52,7 +52,7 @@ const Header = () => {
 						</button>
 						<button
 							type="button"
-							className="header__order btn btn-secondary"
+							className="header__order btn btn-secondary--rounded"
 						>
 							Online Sipariş
 						</button>

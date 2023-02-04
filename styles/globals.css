@@ -30,11 +30,14 @@
 }
 
 .btn {
-	@apply text-light px-5 py-2 rounded-full font-poppins uppercase text-lg inline-block transition-colors duration-300 ease-linear max-lg:text-sm;
+	@apply text-light px-5 py-2 font-poppins uppercase text-lg inline-block transition-colors duration-300 ease-linear max-lg:text-sm;
+}
+.btn.btn-primary {
+	@apply bg-primary border hover:bg-secondary hover:border-secondary hover:text-light;
 }
 
-.btn.btn-secondary {
-	@apply bg-dark_secondary hover:bg-dark2_secondary;
+.btn.btn-secondary--rounded {
+	@apply bg-dark_secondary hover:bg-dark2_secondary rounded-full;
 }
 
 .header {

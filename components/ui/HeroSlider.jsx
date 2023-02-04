@@ -53,6 +53,9 @@ const HeroSlider = () => {
 										cupiditate sequi illum a quia dolor dolore aut
 										quasi.
 									</p>
+									<button className="btn btn-primary">
+										<Link href="/">Keşfet</Link>
+									</button>
 								</div>
 								<div className="hero-slider__slider--image">
 									<Link href="#">
@@ -71,10 +74,15 @@ const HeroSlider = () => {
 										Yakınınızda Hizmet Sunan Restoranları Keşfedin
 									</h1>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur
-										adipisicing elit. Veritatis quo ipsum perferendis
-										provident vel laudantium.
+										Lorem, ipsum dolor sit amet consectetur
+										adipisicing elit. Repellendus reiciendis, dolores
+										expedita quisquam maxime corporis molestiae
+										cupiditate sequi illum a quia dolor dolore aut
+										quasi.
 									</p>
+									<button className="btn btn-primary">
+										<Link href="/">Keşfet</Link>
+									</button>
 								</div>
 								<div className="hero-slider__slider--image">
 									<Link href="#">
