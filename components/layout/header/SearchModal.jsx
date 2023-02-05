@@ -4,7 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
-import TitlePrimary from './TitlePrimary';
+import TitlePrimary from '../../ui/TitlePrimary';
 const SearchModal = () => {
 	const { isModalOpen } = useSelector((store) => store.searchModal);
 	const dispatch = useDispatch();

@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FaUserAlt, FaShoppingCart, FaSearch, FaBars } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import MobileMenu from '../ui/MobileMenu';
+import MobileMenu from './MobileMenu';
+import SearchModal from './SearchModal';
 const Header = () => {
 	const dispatch = useDispatch();
 	const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
 	return (
 		<>
+			<SearchModal />
 			<nav className="header">
 				<div className="header__container">
 					<div className="header__logo">

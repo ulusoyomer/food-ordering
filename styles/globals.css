@@ -30,11 +30,17 @@
 	@apply text-secondary;
 }
 
+/* Buttons */
+
 .btn {
 	@apply text-light px-5 py-2 font-poppins uppercase text-lg inline-block transition-colors duration-300 ease-linear max-lg:text-sm;
 }
 .btn.btn-primary {
 	@apply bg-primary border hover:bg-secondary hover:border-secondary hover:text-light;
+}
+
+.btn.btn-primary.btn-active {
+	@apply bg-secondary border-secondary text-light;
 }
 
 .btn.btn-primary {
@@ -44,7 +50,18 @@
 .btn.btn-secondary--rounded {
 	@apply bg-dark_secondary hover:bg-dark2_secondary rounded-full;
 }
+.btn.btn--full-rounded {
+	@apply rounded-full;
+}
+.btn.btn--bigger {
+	@apply text-2xl;
+}
 
+/* Buttons End */
+
+/*Sections */
+
+/* Header */
 .header {
 	@apply bg-primary sticky top-0 left-0 w-full z-10;
 }
@@ -85,6 +102,7 @@
 	@apply text-2xl text-light hover:text-secondary transition-colors duration-300 ease-linear;
 }
 
+/*Mobile Menu*/
 .mobile-menu {
 	@apply opacity-0 sm:hidden fixed flex h-screen w-screen top-0 left-0 items-center justify-center z-20 bg-light translate-x-full transition-all duration-300 ease-linear;
 }
@@ -106,6 +124,9 @@
 .mobile-menu__menu .mobile-menu__menu--item a {
 	@apply w-full text-center font-poppins uppercase text-4xl inline-block p-2 hover:text-secondary transition-colors duration-300 ease-linear border-b-2 border-secondary;
 }
+/*Mobile Menu End*/
+
+/* Header Modal*/
 
 .modal {
 	@apply fixed h-screen w-screen top-0 left-0 bg-opacity-50 items-center justify-center z-50 bg-black hidden;
@@ -150,7 +171,11 @@
 .modal__close {
 	@apply absolute top-2 right-2 text-3xl text-dark2_secondary cursor-pointer;
 }
+/* Header Modal End*/
 
+/* Header End*/
+
+/* Hero Slider */
 .hero-slider {
 	@apply max-w-[120rem] grid grid-cols-12 bg-primary gap-4 h-[50rem] py-16 px-5 max-2xl:h-[40rem] max-lg:h-[34rem] 
 	max-lg:py-10 max-md:h-[25rem] max-md:py-5 max-sm:h-[22rem];
@@ -189,6 +214,9 @@
 	@apply max-w-[50rem] w-[85%] max-md:w-[70%] max-sm:min-w-[11.3rem];
 }
 
+/* Hero Slider End */
+
+/* Campaigns */
 .campaigns {
 	@apply border-t-2 border-black border-opacity-10 shadow-campaigns-shadow pb-1;
 }
@@ -221,3 +249,55 @@
 .campaigns__item--text p {
 	@apply text-lg font-poppins font-medium text-gray max-w-sm pb-2 max-sm:text-sm;
 }
+
+/* Campaigns End */
+
+/*Menu*/
+.menu {
+	@apply py-16 px-5;
+}
+
+.menu__title {
+	@apply mb-12;
+}
+
+.menu .menu__container {
+	@apply container mx-auto;
+}
+
+.menu__category {
+	@apply flex flex-wrap items-center justify-center gap-x-5 mb-12;
+}
+
+.menu__foods {
+	@apply flex flex-row flex-wrap gap-x-8 gap-y-10 justify-center;
+}
+
+.menu__item {
+	@apply bg-primary rounded-2xl;
+}
+
+.menu__item--image {
+	@apply rounded-t-xl overflow-hidden bg-light text-center flex justify-center items-center;
+}
+.menu__item--image img {
+}
+.menu__item--content {
+	@apply p-5;
+}
+.menu__item--title {
+	@apply text-light font-poppins font-bold text-2xl py-4;
+}
+.menu__item--description {
+	@apply text-gray font-poppins font-medium text-lg py-4 max-w-xs;
+}
+.menu__item--footer {
+	@apply flex items-center justify-between p-4;
+}
+.menu__item--price {
+	@apply text-dark2_secondary font-poppins font-bold text-2xl;
+}
+.menu__more {
+	@apply text-center pt-12;
+}
+/*Menu End*/
