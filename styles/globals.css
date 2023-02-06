@@ -19,6 +19,10 @@
 	@apply bg-primary justify-center items-center flex;
 }
 
+.u--alert {
+	@apply text-red-600;
+}
+
 .title {
 	@apply text-4xl font-poppins uppercase text-center font-bold;
 }

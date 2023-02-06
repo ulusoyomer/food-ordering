@@ -1,5 +1,6 @@
 import TitlePrimary from '../ui/TitlePrimary';
 import { useFormik } from 'formik';
+import { reservationSchema } from '../../schema/reservationSchema';
 
 const BookTable = () => {
 	const formik = useFormik({
@@ -14,6 +15,7 @@ const BookTable = () => {
 			alert(JSON.stringify(values, null, 2));
 			actions.resetForm();
 		},
+		validationSchema: reservationSchema,
 	});
 	return (
 		<div className="book-table">
@@ -29,7 +31,11 @@ const BookTable = () => {
 							value={formik.values.name}
 							onChange={formik.handleChange}
 							placeholder="Adınız"
+							onBlur={formik.handleBlur}
 						/>
+						{formik.touched.name && formik.errors.name ? (
+							<p className="u--alert">{formik.errors.name}</p>
+						) : null}
 					</div>
 					<div className="form-group relative">
 						<input
@@ -40,7 +46,11 @@ const BookTable = () => {
 							value={formik.values.phone}
 							onChange={formik.handleChange}
 							placeholder="Telefon Numaranız"
+							required
 						/>
+						{formik.touched.phone && formik.errors.phone ? (
+							<p className="u--alert">{formik.errors.phone}</p>
+						) : null}
 					</div>
 					<div className="form-group relative">
 						<input
@@ -51,7 +61,11 @@ const BookTable = () => {
 							value={formik.values.email}
 							onChange={formik.handleChange}
 							placeholder="Email Adresiniz"
+							required
 						/>
+						{formik.touched.phone && formik.errors.email ? (
+							<p className="u--alert">{formik.errors.email}</p>
+						) : null}
 					</div>
 					<div className="form-group relative">
 						<input
@@ -59,11 +73,16 @@ const BookTable = () => {
 							type="number"
 							id="number"
 							min={1}
+							max={12}
 							name="number"
 							value={formik.values.number}
 							onChange={formik.handleChange}
 							placeholder="Kişi Sayısı"
+							required
 						/>
+						{formik.touched.phone && formik.errors.number ? (
+							<p className="u--alert">{formik.errors.number}</p>
+						) : null}
 					</div>
 					<div className="form-group relative">
 						<input
@@ -74,7 +93,11 @@ const BookTable = () => {
 							value={formik.values.date}
 							onChange={formik.handleChange}
 							placeholder="Tarih"
+							required
 						/>
+						{formik.touched.phone && formik.errors.date ? (
+							<p className="u--alert">{formik.errors.date}</p>
+						) : null}
 					</div>
 					<button className="btn btn-secondary--rounded" type="submit">
 						Rezervasyon Yap
