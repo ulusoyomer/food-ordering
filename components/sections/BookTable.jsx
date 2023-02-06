@@ -46,6 +46,7 @@ const BookTable = () => {
 							value={formik.values.phone}
 							onChange={formik.handleChange}
 							placeholder="Telefon Numaranız"
+							onBlur={formik.handleBlur}
 							required
 						/>
 						{formik.touched.phone && formik.errors.phone ? (
@@ -61,9 +62,10 @@ const BookTable = () => {
 							value={formik.values.email}
 							onChange={formik.handleChange}
 							placeholder="Email Adresiniz"
+							onBlur={formik.handleBlur}
 							required
 						/>
-						{formik.touched.phone && formik.errors.email ? (
+						{formik.touched.email && formik.errors.email ? (
 							<p className="u--alert">{formik.errors.email}</p>
 						) : null}
 					</div>
@@ -78,9 +80,10 @@ const BookTable = () => {
 							value={formik.values.number}
 							onChange={formik.handleChange}
 							placeholder="Kişi Sayısı"
+							onBlur={formik.handleBlur}
 							required
 						/>
-						{formik.touched.phone && formik.errors.number ? (
+						{formik.touched.number && formik.errors.number ? (
 							<p className="u--alert">{formik.errors.number}</p>
 						) : null}
 					</div>
@@ -93,9 +96,10 @@ const BookTable = () => {
 							value={formik.values.date}
 							onChange={formik.handleChange}
 							placeholder="Tarih"
+							onBlur={formik.handleBlur}
 							required
 						/>
-						{formik.touched.phone && formik.errors.date ? (
+						{formik.touched.date && formik.errors.date ? (
 							<p className="u--alert">{formik.errors.date}</p>
 						) : null}
 					</div>
