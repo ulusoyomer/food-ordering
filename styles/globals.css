@@ -43,7 +43,7 @@
 	@apply bg-secondary border-secondary text-light;
 }
 
-.btn.btn-primary {
+.btn.btn-primary--rounded {
 	@apply rounded-3xl bg-primary border hover:bg-secondary hover:border-secondary hover:text-light;
 }
 
@@ -344,3 +344,32 @@
 	@apply w-[40rem] translate-x-1/4 max-sm:translate-x-0;
 }
 /* About End */
+
+/* Product */
+.product {
+	@apply container mx-auto flex flex-row flex-wrap items-center justify-around gap-x-10 gap-y-2 my-24 max-lg:flex-col max-sm:justify-center;
+}
+.product__image {
+}
+.product__image img {
+	@apply w-[40rem] max-sm:w-[20rem];
+}
+.product__price {
+	@apply text-secondary font-poppins font-bold text-2xl mb-4 mt-4;
+}
+.product__info--text {
+	@apply max-w-lg font-poppins text-lg text-gray mb-4;
+}
+.product__size {
+	@apply flex flex-row flex-wrap gap-x-2 gap-y-2;
+}
+
+.product__extra h3 {
+	@apply mt-4 text-2xl font-poppins font-bold text-primary;
+}
+.product__extra--items {
+	@apply flex flex-row flex-wrap gap-x-2 gap-y-2 font-medium text-lg text-gray;
+}
+.product__extra--items input {
+	@apply accent-secondary;
+}

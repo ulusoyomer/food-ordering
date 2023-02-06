@@ -3,14 +3,17 @@ import Menu from '../../components/sections/menu/Menu';
 import HeroSlider from '@/components/sections/HeroSlider';
 import Campaigns from '@/components/sections/Campaigns';
 import About from '@/components/sections/About';
+import AppLayout from '@/components/layout/AppLayout';
 
 const Index = () => {
 	return (
 		<>
-			<HeroSlider />
-			<Campaigns />
-			<Menu />
-			<About />
+			<AppLayout>
+				<HeroSlider />
+				<Campaigns />
+				<Menu />
+				<About />
+			</AppLayout>
 		</>
 	);
 };

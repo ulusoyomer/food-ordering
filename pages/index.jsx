@@ -1,7 +1,4 @@
-import Header from '@/components/layout/header/Header';
 import Head from 'next/head';
-import { Provider } from 'react-redux';
-import store from 'redux/store';
 import Home from '@/pages/home';
 
 export default function Index() {
@@ -16,10 +13,8 @@ export default function Index() {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Provider store={store}>
-				<Header />
-				<Home />
-			</Provider>
+
+			<Home />
 		</>
 	);
 }
