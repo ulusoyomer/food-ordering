@@ -24,7 +24,7 @@
 }
 
 .title {
-	@apply text-4xl font-poppins uppercase text-center font-bold;
+	@apply text-4xl font-poppins uppercase text-center font-bold max-sm:text-xl;
 }
 
 .title-primary {
@@ -237,7 +237,7 @@
 }
 
 .campaigns .campaigns__container .campaigns__item {
-	@apply bg-primary flex items-center justify-start gap-x-3 p-6 rounded-md max-md:p-1;
+	@apply bg-primary flex flex-wrap items-center justify-start gap-x-3 gap-y-3 p-6 rounded-md max-md:p-1 max-sm:justify-center;
 }
 
 .campaigns__item--img {
@@ -387,6 +387,7 @@
 
 /* Product end */
 
+/* Book Table */
 .book-table {
 	@apply flex flex-wrap gap-y-10 items-center justify-center py-16 px-5 gap-x-10;
 }
@@ -400,4 +401,29 @@
 
 .book-table__map iframe {
 	@apply max-lg:w-full;
+}
+/* Book Table End */
+
+/* Footer */
+.footer {
+	@apply text-center gap-x-20 flex flex-wrap items-start justify-center bg-primary text-light pt-16 px-5;
+}
+
+.footer h2 {
+	@apply text-2xl text-secondary underline;
+}
+
+.footer__contact a {
+	@apply mt-5 flex gap-x-4 no-underline text-sm font-poppins font-medium text-light;
+}
+
+.footer p {
+	@apply mt-5 max-w-xs text-sm font-poppins font-medium text-light;
+}
+
+.footer__social--icons {
+	@apply flex gap-x-4 items-center justify-center mt-5;
+}
+.footer__social--icons a {
+	@apply text-lg hover:text-secondary transition-colors duration-300;
 }
