@@ -42,10 +42,28 @@ const Header = () => {
 								</Link>
 							</li>
 							<li className="header__menu--item">
-								<Link href="#">Menü</Link>
+								<Link
+									className={
+										route.pathname === '/menu'
+											? 'header__menu--item--active'
+											: ''
+									}
+									href="/menu"
+								>
+									Menü
+								</Link>
 							</li>
 							<li className="header__menu--item">
-								<Link href="#">Hakkımızda</Link>
+								<Link
+									className={
+										route.pathname === '/about'
+											? 'header__menu--item--active'
+											: ''
+									}
+									href="/about"
+								>
+									Hakkımızda
+								</Link>
 							</li>
 						</ul>
 					</div>
