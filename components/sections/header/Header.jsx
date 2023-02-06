@@ -6,8 +6,10 @@ import { FaUserAlt, FaShoppingCart, FaSearch, FaBars } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import MobileMenu from './MobileMenu';
 import SearchModal from './SearchModal';
+import { useRouter } from 'next/router';
 const Header = () => {
 	const dispatch = useDispatch();
+	const route = useRouter();
 	const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
 	return (
 		<>
@@ -28,7 +30,16 @@ const Header = () => {
 					<div className="header__menu">
 						<ul className="header__menu--list">
 							<li className="header__menu--item">
-								<Link href="#">Anasayfa</Link>
+								<Link
+									className={
+										route.pathname === '/'
+											? 'header__menu--item--active'
+											: ''
+									}
+									href="/"
+								>
+									Anasayfa
+								</Link>
 							</li>
 							<li className="header__menu--item">
 								<Link href="#">Menü</Link>

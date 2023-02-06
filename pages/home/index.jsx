@@ -4,6 +4,7 @@ import HeroSlider from '@/components/sections/HeroSlider';
 import Campaigns from '@/components/sections/Campaigns';
 import About from '@/components/sections/About';
 import AppLayout from '@/components/layout/AppLayout';
+import BookTable from '@/components/sections/BookTable';
 
 const Index = () => {
 	return (
@@ -13,6 +14,7 @@ const Index = () => {
 				<Campaigns />
 				<Menu />
 				<About />
+				<BookTable />
 			</AppLayout>
 		</>
 	);
