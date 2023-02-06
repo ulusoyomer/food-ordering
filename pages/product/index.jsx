@@ -1,9 +1,8 @@
-import AppLayout from '../../components/layout/AppLayout';
 import Image from 'next/image';
 import TitlePrimary from '../../components/ui/TitlePrimary';
 const Product = () => {
 	return (
-		<AppLayout>
+		<>
 			<div className="product">
 				<div className="product__image">
 					<Image
@@ -57,7 +56,7 @@ const Product = () => {
 					</button>
 				</div>
 			</div>
-		</AppLayout>
+		</>
 	);
 };
 export default Product;

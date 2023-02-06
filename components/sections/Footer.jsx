@@ -54,7 +54,7 @@ const Footer = () => {
 					<p>Hafta sonu: Kapalı</p>
 				</div>
 				<div className="w-full my-2">
-					All Right Reserved By Spicyo Restaurant
+					© All Right Reserved By Spicyo Restaurant Cafe
 				</div>
 			</div>
 		</>
