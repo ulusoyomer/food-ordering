@@ -414,7 +414,8 @@
 
 /* Footer */
 .footer {
-	@apply text-center gap-x-20 flex flex-wrap items-start justify-center bg-primary text-light pt-16 px-5;
+	@apply text-center gap-x-20 flex flex-wrap items-start 
+	justify-center bg-primary text-light pt-16 px-5 max-lg:flex-col max-lg:items-center;
 }
 
 .footer h2 {
@@ -422,25 +423,25 @@
 }
 
 .footer__contact a {
-	@apply mt-5 flex gap-x-4 no-underline text-sm font-poppins font-medium text-light;
+	@apply mt-5 flex gap-x-4 no-underline text-xl font-poppins font-medium text-light;
 }
 
 .footer p {
-	@apply mt-5 max-w-xs text-sm font-poppins font-medium text-light;
+	@apply mt-5 max-w-xs text-xl font-poppins font-medium text-light;
 }
 
 .footer__social--icons {
 	@apply flex gap-x-4 items-center justify-center mt-5;
 }
 .footer__social--icons a {
-	@apply text-lg hover:text-secondary transition-colors duration-300;
+	@apply text-3xl hover:text-secondary transition-colors duration-300;
 }
 
 /* Footer End */
 
 /* Login */
 .login {
-	@apply py-36 max-sm:px-3;
+	@apply py-20 max-sm:px-3 min-h-[calc(100vh-24.7rem)];
 }
 
 .login__container {
@@ -451,7 +452,7 @@
 /* Cart */
 
 .cart {
-	@apply pt-40 max-sm:px-3 min-h-[55rem];
+	@apply pt-20 max-sm:px-3 min-h-[calc(100vh-24.7rem)];
 }
 
 .cart__table {
@@ -459,7 +460,7 @@
 }
 
 .cart__table thead {
-	@apply text-secondary font-poppins font-bold text-4xl bg-primary max-sm:hidden;
+	@apply text-secondary font-poppins font-bold text-4xl bg-primary max-sm:hidden max-md:text-2xl;
 }
 
 .cart__table thead tr {
@@ -483,11 +484,11 @@
 }
 
 .table__cell {
-	@apply flex flex-row items-center justify-center flex-nowrap max-sm:justify-start;
+	@apply flex flex-row items-stretch justify-center flex-nowrap max-sm:justify-start;
 }
 .table__inner_title {
 	@apply hidden bg-primary text-secondary font-poppins 
-	font-bold text-sm h-16 max-sm:flex items-center justify-center w-20;
+	font-bold text-sm max-sm:flex items-center justify-center w-20;
 }
 tbody tr {
 	@apply max-sm:my-3 odd:bg-zinc-100 even:bg-zinc-300 max-sm:rounded-xl;
@@ -505,7 +506,7 @@ tbody tr td:last-child .table__inner_title {
 }
 
 .table__info {
-	@apply text-zinc-700 max-sm:text-xl mx-5 text-2xl font-poppins font-bold flex flex-1 items-center justify-center gap-x-5;
+	@apply text-zinc-700 max-sm:text-xl mx-5 text-2xl font-poppins font-bold flex flex-1 items-center justify-center gap-x-5 my-5;
 }
 
 .cart__payment {
@@ -513,4 +514,22 @@ tbody tr td:last-child .table__inner_title {
 }
 .cart__payment--text {
 	@apply text-zinc-700 text-2xl font-poppins font-bold;
+}
+
+.cart__status {
+	@apply bg-secondary mt-12 mx-auto container flex flex-row max-sm:gap-y-3 items-center justify-between max-sm:flex-col mb-5;
+}
+.cart__status_item {
+	@apply m-5 flex flex-col gap-y-3 items-center justify-center;
+}
+.cart__status_item--icon {
+	@apply text-black opacity-20 text-6xl max-sm:text-3xl;
+}
+
+.cart__status--text {
+	@apply text-black text-2xl max-sm:text-xl font-poppins font-bold opacity-20;
+}
+
+.cart__status--text--active {
+	@apply opacity-100;
 }
