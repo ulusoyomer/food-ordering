@@ -5,6 +5,7 @@ import Link from 'next/link';
 const RegisterPage = () => {
 	const formik = useFormik({
 		initialValues: {
+			name: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
@@ -20,6 +21,26 @@ const RegisterPage = () => {
 			<TitlePrimary>Kayıt Ol</TitlePrimary>
 			<div className="login__container">
 				<form onSubmit={formik.handleSubmit}>
+					<input
+						className={
+							formik.touched.email && formik.errors.email
+								? 'input u--alert-border'
+								: 'input'
+						}
+						type={'email'}
+						name={'name'}
+						id={'name'}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.name}
+						placeholder={'İsminiz'}
+					/>
+					<p className="u--alert">
+						&nbsp;
+						{formik.touched.name && formik.errors.name
+							? '*' + formik.errors.name
+							: ' '}
+					</p>
 					<input
 						className={
 							formik.touched.email && formik.errors.email
@@ -88,7 +109,10 @@ const RegisterPage = () => {
 					>
 						Kayıt Ol
 					</button>
-					<Link className="block mt-6 hover:underline" href="/auth/">
+					<Link className="block mt-3 hover:underline" href="/auth/login">
+						Giriş Yap
+					</Link>
+					<Link className="block mt-3 hover:underline" href="/auth/">
 						Şifremi Unuttum
 					</Link>
 				</form>

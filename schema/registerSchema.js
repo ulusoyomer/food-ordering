@@ -4,6 +4,7 @@ export const registerSchema = Yum.object({
 	email: Yum.string()
 		.email('Email formatı doğru değil')
 		.required('Email zorunlu'),
+	name: Yum.string().required('İsim zorunlu'),
 	password: Yum.string()
 		.min(8, 'Şifreniz en az 8 Karakter uzunluğunda olmalıdır')
 		.required('Şifre zorunlu')
