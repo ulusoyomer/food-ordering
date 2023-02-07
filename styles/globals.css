@@ -439,7 +439,7 @@
 /* Footer End */
 
 .login {
-	@apply py-28;
+	@apply py-36;
 }
 
 .login__container {

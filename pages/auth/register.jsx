@@ -27,7 +27,7 @@ const RegisterPage = () => {
 								? 'input u--alert-border'
 								: 'input'
 						}
-						type={'email'}
+						type={'text'}
 						name={'name'}
 						id={'name'}
 						onChange={formik.handleChange}
