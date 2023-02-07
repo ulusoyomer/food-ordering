@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FaTimes } from 'react-icons/fa';
 const MobileMenu = ({ isMobileMenuActive, setIsMobileMenuActive }) => {
 	return (
@@ -13,13 +14,13 @@ const MobileMenu = ({ isMobileMenuActive, setIsMobileMenuActive }) => {
 				<div className="mobile-menu__menu">
 					<ul className="mobile-menu__menu--list">
 						<li className="mobile-menu__menu--item">
-							<a href="#">Anasayfa</a>
+							<Link href="/">Anasayfa</Link>
 						</li>
 						<li className="mobile-menu__menu--item">
-							<a href="#">Menü</a>
+							<Link href="/menu">Menü</Link>
 						</li>
 						<li className="mobile-menu__menu--item">
-							<a href="#">Hakkımızda</a>
+							<Link href="/about">Hakkımızda</Link>
 						</li>
 					</ul>
 				</div>
