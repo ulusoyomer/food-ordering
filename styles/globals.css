@@ -438,10 +438,72 @@
 
 /* Footer End */
 
+/* Login */
 .login {
 	@apply py-36;
 }
 
 .login__container {
 	@apply max-w-xl mx-auto;
+}
+/* Login End */
+
+/* Cart */
+
+.cart {
+	@apply py-40 max-sm:px-3 min-h-[55rem];
+}
+
+.cart__table {
+	@apply container mx-auto my-10;
+}
+
+.cart__table thead {
+	@apply text-secondary font-poppins font-bold text-4xl bg-primary max-sm:hidden;
+}
+
+.cart__table thead tr {
+	@apply rounded-t-xl;
+}
+
+.cart__table thead th:first-child {
+	@apply rounded-tl-xl;
+}
+
+.cart__table thead th:last-child {
+	@apply rounded-tr-xl;
+}
+
+.cart__table thead th {
+	@apply px-5 py-2;
+}
+
+.cart__table tbody tr {
+	@apply max-sm:flex max-sm:flex-col;
+}
+
+.table__cell {
+	@apply flex flex-row items-center justify-center flex-nowrap max-sm:justify-start;
+}
+.table__inner_title {
+	@apply hidden bg-primary text-secondary font-poppins 
+	font-bold text-sm h-16 max-sm:flex items-center justify-center w-20;
+}
+tbody tr {
+	@apply max-sm:my-3 odd:bg-zinc-100 even:bg-zinc-300 max-sm:rounded-xl;
+}
+tbody tr td {
+	@apply border-b border-gray;
+}
+
+tbody tr td:first-child .table__inner_title {
+	@apply rounded-tl-xl;
+}
+
+tbody tr td:last-child .table__inner_title {
+	@apply rounded-bl-xl;
+}
+
+.table__info {
+	@apply text-zinc-700 max-sm:text-xl mx-5 text-2xl font-poppins font-bold flex flex-1 items-center justify-center gap-x-5;
 }
