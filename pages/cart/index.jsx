@@ -86,6 +86,15 @@ const CartPage = () => {
 					</tr>
 				</tbody>
 			</table>
+			<TitlePrimary className="mt-6">Ödeme Kısmı</TitlePrimary>
+			<div className="cart__payment">
+				<div className="cart__payment--text">Ara Toplam : 30 $</div>
+				<div className="cart__payment--text">İndirim : 30 $</div>
+				<div className="cart__payment--text">Toplam : 30 $</div>
+				<div>
+					<button className="btn btn-secondary--rounded">Ödeme Yap</button>
+				</div>
+			</div>
 		</div>
 	);
 };

@@ -16,7 +16,7 @@
 }
 
 .title {
-	@apply text-4xl font-poppins uppercase text-center font-bold max-sm:text-xl;
+	@apply text-4xl font-poppins uppercase text-center font-bold max-sm:text-3xl;
 }
 
 .title-primary {
@@ -440,7 +440,7 @@
 
 /* Login */
 .login {
-	@apply py-36;
+	@apply py-36 max-sm:px-3;
 }
 
 .login__container {
@@ -451,7 +451,7 @@
 /* Cart */
 
 .cart {
-	@apply py-40 max-sm:px-3 min-h-[55rem];
+	@apply pt-40 max-sm:px-3 min-h-[55rem];
 }
 
 .cart__table {
@@ -506,4 +506,11 @@ tbody tr td:last-child .table__inner_title {
 
 .table__info {
 	@apply text-zinc-700 max-sm:text-xl mx-5 text-2xl font-poppins font-bold flex flex-1 items-center justify-center gap-x-5;
+}
+
+.cart__payment {
+	@apply flex flex-row gap-x-5 max-sm:gap-y-3 items-center justify-center max-sm:flex-col mb-5;
+}
+.cart__payment--text {
+	@apply text-zinc-700 text-2xl font-poppins font-bold;
 }
