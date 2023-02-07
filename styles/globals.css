@@ -523,13 +523,9 @@ tbody tr td:last-child .table__inner_title {
 	@apply m-5 flex flex-col gap-y-3 items-center justify-center;
 }
 .cart__status_item--icon {
-	@apply text-black opacity-20 text-6xl max-sm:text-3xl;
+	@apply text-black text-6xl max-sm:text-3xl;
 }
 
 .cart__status--text {
-	@apply text-black text-2xl max-sm:text-xl font-poppins font-bold opacity-20;
-}
-
-.cart__status--text--active {
-	@apply opacity-100;
+	@apply text-black text-2xl max-sm:text-xl font-poppins font-bold;
 }

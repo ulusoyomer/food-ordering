@@ -55,11 +55,9 @@ const OrderPage = () => {
 			</table>
 			<TitlePrimary className="mt-6">Sipariş Durumu</TitlePrimary>
 			<div className="cart__status">
-				<div className="cart__status_item">
-					<MdPayment className="cart__status_item--icon cart__status--text--active" />
-					<p className="cart__status--text cart__status--text--active">
-						Ödeme Kabul Edildi
-					</p>
+				<div className="cart__status_item animate-pulse">
+					<MdPayment className="cart__status_item--icon" />
+					<p className="cart__status--text">Ödeme Kabul Edildi</p>
 				</div>
 				<div className="cart__status_item">
 					<MdFastfood className="cart__status_item--icon" />
