@@ -34,6 +34,7 @@ const About = () => {
 							alt="about_image"
 							width={300}
 							height={300}
+							priority
 						/>
 					</div>
 				</div>

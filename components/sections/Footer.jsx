@@ -53,7 +53,7 @@ const Footer = () => {
 					<p>Hafta içi: 09:00 - 18:00</p>
 					<p>Hafta sonu: Kapalı</p>
 				</div>
-				<div className="w-full my-2">
+				<div className="w-full mt-10 mb-1">
 					© All Right Reserved By Spicyo Restaurant Cafe
 				</div>
 			</div>

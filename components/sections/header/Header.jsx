@@ -68,7 +68,7 @@ const Header = () => {
 						</ul>
 					</div>
 					<div className="header__buttons">
-						<Link className="header_buttons--link" href="#">
+						<Link className="header_buttons--link" href="/auth/login">
 							<FaUserAlt />
 						</Link>
 						<Link className="header_buttons--link" href="#">
