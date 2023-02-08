@@ -1,6 +1,54 @@
 import Image from 'next/image';
 import TitlePrimary from '../../components/ui/TitlePrimary';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/reducers/cartSlice';
+
+const itemsExtra = [
+	{
+		id: 1,
+		name: 'Ketçap',
+		price: 2,
+	},
+	{
+		id: 2,
+		name: 'Mayonez',
+		price: 2,
+	},
+	{
+		id: 3,
+		name: 'Hardal',
+		price: 2,
+	},
+];
+
+const sizePrice = {
+	Küçük: 0,
+	Orta: 10,
+	Büyük: 20,
+};
+const itemPrice = 10;
+
+const itemId = 1;
+
 const Product = () => {
+	const [extraItems, setExtraItems] = useState([]);
+	const [selectedSize, setSelectedSize] = useState('Küçük');
+	const [totalPrice, setTotalPrice] = useState(itemPrice);
+	const [price, setPrice] = useState(itemPrice);
+
+	const [quantity, setQuantity] = useState(1);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setTotalPrice(price + sizePrice[selectedSize]);
+	}, [price, selectedSize]);
+
+	useEffect(() => {
+		quantity < 1 && setQuantity(1);
+	}, [quantity]);
+
 	return (
 		<>
 			<div className="product">
@@ -10,11 +58,14 @@ const Product = () => {
 						width={300}
 						height={300}
 						alt="product image"
+						priority
 					/>
 				</div>
 				<div className="product__info px-5">
 					<TitlePrimary>Hamburger</TitlePrimary>
-					<div className="product__price">10 ₺</div>
+					<div className="product__price">
+						{totalPrice} <span>₺</span>
+					</div>
 					<p className="product__info--text">
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse
 						facere consequatur voluptate. Saepe, perferendis harum
@@ -23,19 +74,34 @@ const Product = () => {
 					<div className="product__size">
 						<button
 							type="button"
-							className="product__size--item btn btn-primary"
+							className={
+								selectedSize === 'Küçük'
+									? 'product__size--item btn btn-primary btn-active'
+									: 'product__size--item btn btn-primary'
+							}
+							onClick={() => setSelectedSize('Küçük')}
 						>
 							Küçük
 						</button>
 						<button
 							type="button"
-							className="product__size--item btn btn-primary btn-active"
+							className={
+								selectedSize === 'Orta'
+									? 'product__size--item btn btn-primary btn-active'
+									: 'product__size--item btn btn-primary'
+							}
+							onClick={() => setSelectedSize('Orta')}
 						>
 							Orta
 						</button>
 						<button
 							type="button"
-							className="product__size--item btn btn-primary"
+							className={
+								selectedSize === 'Büyük'
+									? 'product__size--item btn btn-primary btn-active'
+									: 'product__size--item btn btn-primary'
+							}
+							onClick={() => setSelectedSize('Büyük')}
 						>
 							Büyük
 						</button>
@@ -43,15 +109,60 @@ const Product = () => {
 					<div className="product__extra">
 						<h3>Extra Malzeme</h3>
 						<div className="product__extra--items">
-							<label htmlFor="extra1">Extra 1</label>
-							<input type="checkbox" id="extra1" name="extra1" />
-							<label htmlFor="extra2">Extra 2</label>
-							<input type="checkbox" id="extra2" name="extra2" />
-							<label htmlFor="extra3">Extra 3</label>
-							<input type="checkbox" id="extra3" name="extra3" />
+							{itemsExtra.map((item) => {
+								return (
+									<div key={item.id}>
+										<label htmlFor="extra1">{item.name}</label>
+										<input
+											type="checkbox"
+											onChange={(e) => {
+												if (e.target.checked) {
+													setPrice(price + item.price);
+													setExtraItems([...extraItems, item]);
+												} else {
+													setPrice(price - item.price);
+													setExtraItems(
+														extraItems.filter(
+															(i) => i.id !== item.id
+														)
+													);
+												}
+											}}
+											id={item.name}
+											name={item.name}
+											className="mx-2"
+										/>
+									</div>
+								);
+							})}
 						</div>
 					</div>
-					<button type="button" className="btn btn-primary--rounded mt-5">
+					<div className="product__extra">
+						<h3>Adet</h3>
+						<input
+							type="number"
+							className="input"
+							value={quantity}
+							onChange={(e) => setQuantity(e.target.value)}
+							min="1"
+						/>
+					</div>
+					<button
+						onClick={() => {
+							dispatch(
+								addToCart({
+									id: itemId,
+									name: 'Hamburger',
+									price: totalPrice,
+									size: selectedSize,
+									extra: extraItems,
+									amount: quantity,
+								})
+							);
+						}}
+						type="button"
+						className="btn btn-primary--rounded mt-5"
+					>
 						Sepete Ekle
 					</button>
 				</div>

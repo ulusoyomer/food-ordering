@@ -3,14 +3,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaUserAlt, FaShoppingCart, FaSearch, FaBars } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
 import MobileMenu from './MobileMenu';
 import SearchModal from './SearchModal';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
 const Header = () => {
 	const dispatch = useDispatch();
 	const route = useRouter();
 	const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
+	const { piece } = useSelector((store) => store.cart);
 	return (
 		<>
 			<SearchModal />
@@ -71,7 +72,10 @@ const Header = () => {
 						<Link className="header_buttons--link" href="/auth/login">
 							<FaUserAlt />
 						</Link>
-						<Link className="header_buttons--link" href="/cart">
+						<Link className="header_buttons--link relative" href="/cart">
+							<div className="text-xs rounded-full w-5 h-5 absolute bg-red-600 text-white -right-3 -top-3 text-center flex items-center justify-center">
+								{piece}
+							</div>
 							<FaShoppingCart />
 						</Link>
 						<button
