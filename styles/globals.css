@@ -62,6 +62,10 @@
 .btn.btn-secondary--rounded {
 	@apply bg-dark_secondary hover:bg-dark2_secondary rounded-full;
 }
+
+.btn.btn-secondary {
+	@apply bg-dark_secondary hover:bg-dark2_secondary;
+}
 .btn.btn--full-rounded {
 	@apply rounded-full;
 }
@@ -463,6 +467,10 @@
 	@apply text-secondary font-poppins font-bold text-4xl bg-primary max-sm:hidden max-md:text-2xl;
 }
 
+.profile__content .cart__table thead {
+	@apply max-lg:hidden text-lg;
+}
+
 .cart__table thead tr {
 	@apply rounded-t-xl;
 }
@@ -482,16 +490,30 @@
 .cart__table tbody tr {
 	@apply max-sm:flex max-sm:flex-col;
 }
+.profile__content .cart__table tbody tr {
+	@apply max-lg:flex max-lg:flex-col;
+}
 
 .table__cell {
 	@apply flex flex-row items-stretch justify-center flex-nowrap max-sm:justify-start;
 }
+
+.profile__content .table__cell {
+	@apply max-lg:justify-start;
+}
+
 .table__inner_title {
 	@apply hidden bg-primary text-secondary font-poppins 
 	font-bold text-sm max-sm:flex items-center justify-center w-20;
 }
+.profile__content .table__inner_title {
+	@apply max-lg:flex;
+}
 tbody tr {
 	@apply max-sm:my-3 odd:bg-zinc-100 even:bg-zinc-300 max-sm:rounded-xl;
+}
+.profile__content tbody tr {
+	@apply max-lg:rounded-xl;
 }
 tbody tr td {
 	@apply border-b border-gray;
@@ -528,4 +550,45 @@ tbody tr td:last-child .table__inner_title {
 
 .cart__status--text {
 	@apply text-black text-2xl max-sm:text-xl font-poppins font-bold;
+}
+
+/* Cart End */
+
+/* profile */
+
+.profile {
+	@apply py-20 px-12 max-sm:px-3 min-h-[calc(100vh-24.7rem)] items-center justify-center flex flex-row gap-x-10 max-sm:flex-wrap;
+}
+.profile label {
+	@apply text-zinc-700 text-lg font-poppins font-medium block w-full;
+}
+
+.profile__menu {
+	@apply min-w-[16rem] border border-gray rounded-xl flex flex-col;
+}
+
+.profile__image {
+	@apply mx-auto rounded-full w-28 h-28 overflow-hidden mt-6;
+}
+.profile__image img {
+	@apply w-full h-full object-cover;
+}
+.profile__button {
+	@apply border border-gray flex flex-row items-center justify-center gap-x-2;
+}
+
+.profile__button:last-child {
+	@apply rounded-b-xl hover:bg-red-800 hover:border-red-800;
+}
+
+.profile__content--title {
+	@apply text-4xl font-poppins font-bold text-primary mb-3;
+}
+
+.profile__content {
+	@apply max-w-2xl;
+}
+
+.profile__items--form {
+	@apply flex flex-wrap flex-row gap-x-5 items-center justify-center;
 }
