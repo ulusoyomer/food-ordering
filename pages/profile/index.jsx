@@ -7,10 +7,10 @@ import {
 	BsFillBagFill,
 	BsFillXCircleFill,
 } from 'react-icons/bs';
-import PasswordSection from './PasswordSection';
+import PasswordSection from '../../components/sections/PasswordSection';
 
-import ProfileSection from './ProfileSection';
-import OrdersSection from './OrdersSection';
+import ProfileSection from '../../components/sections/ProfileSection';
+import OrdersSection from '../../components/sections/OrdersSection';
 
 const ProfilePage = () => {
 	const [content, setContent] = React.useState('profile');

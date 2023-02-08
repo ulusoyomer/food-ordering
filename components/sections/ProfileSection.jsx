@@ -40,7 +40,7 @@ const ProfileSection = () => {
 					) : (
 						' '
 					)}
-					<label htmlFor="tel">Telefon</label>
+					<label htmlFor="tel">Email</label>
 					<input
 						className="input"
 						placeholder="Email"
