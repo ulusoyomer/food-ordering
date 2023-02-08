@@ -331,6 +331,7 @@ const ProfilePage = () => {
 									<th>Sipariş</th>
 									<th>Tarih</th>
 									<th>Toplam</th>
+									<th>Durumu</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -364,6 +365,14 @@ const ProfilePage = () => {
 												Toplam
 											</div>
 											<p className="table__info">30 $</p>
+										</div>
+									</td>
+									<td>
+										<div className="table__cell">
+											<div className="table__inner_title">
+												Durumu
+											</div>
+											<p className="table__info">Tamamlandı</p>
 										</div>
 									</td>
 								</tr>

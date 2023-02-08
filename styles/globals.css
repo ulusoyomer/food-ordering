@@ -530,6 +530,9 @@ tbody tr td:last-child .table__inner_title {
 .table__info {
 	@apply text-zinc-700 max-sm:text-xl mx-5 text-2xl font-poppins font-bold flex flex-1 items-center justify-center gap-x-5 my-5;
 }
+.profile__content .table__info {
+	@apply text-lg font-medium;
+}
 
 .cart__payment {
 	@apply flex flex-row gap-x-5 max-sm:gap-y-3 items-center justify-center max-sm:flex-col mb-5;
