@@ -1,9 +1,13 @@
 import Link from 'next/link';
 import TitlePrimary from '../../components/ui/TitlePrimary';
-import { FaGoogle } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import { loginSchema } from '../../schema/loginSchema';
+import { useSession, signIn } from 'next-auth/react';
+
 const LoginPage = () => {
+	const { data: session } = useSession();
+	console.log(session);
 	const formik = useFormik({
 		initialValues: {
 			email: '',
@@ -66,12 +70,13 @@ const LoginPage = () => {
 					>
 						Giriş Yap
 					</button>
-					<Link
-						href="#"
+					<button
+						type="button"
+						onClick={() => signIn('github')}
 						className="btn btn-primary--rounded btn-primary--no-hover w-full mt-5 text-center"
 					>
-						<FaGoogle className="inline" /> Google İle Giriş Yap
-					</Link>
+						<FaGithub className="inline" /> Github İle Giriş Yap
+					</button>
 					<Link
 						className="block mt-6 hover:underline"
 						href="/auth/register"
