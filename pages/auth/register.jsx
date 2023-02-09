@@ -2,6 +2,11 @@ import TitlePrimary from '../../components/ui/TitlePrimary';
 import { useFormik } from 'formik';
 import { registerSchema } from '@/schema/registerSchema';
 import Link from 'next/link';
+import axios from 'axios';
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const RegisterPage = () => {
 	const formik = useFormik({
 		initialValues: {
@@ -10,8 +15,26 @@ const RegisterPage = () => {
 			password: '',
 			confirmPassword: '',
 		},
-		onSubmit: (values, actions) => {
-			alert(JSON.stringify(values, null, 2));
+		onSubmit: async (values, actions) => {
+			try {
+				const response = await axios.post(
+					`${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+					values
+				);
+
+				if (response.data.success) {
+					toast.success(response.data.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+				}
+			} catch (error) {
+				if (!error.response.data.success) {
+					toast.error(error.response.data.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+				}
+			}
+
 			actions.resetForm();
 		},
 		validationSchema: registerSchema,
