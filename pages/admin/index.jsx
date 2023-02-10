@@ -1,16 +1,40 @@
-import Link from 'next/link';
 import TitlePrimary from '../../components/ui/TitlePrimary';
-import { FaGoogle } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import { adminSchema } from '../../schema/adminSchema';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 const LoginPage = () => {
+	const { push } = useRouter();
+
 	const formik = useFormik({
 		initialValues: {
 			username: '',
 			password: '',
 		},
-		onSubmit: (values, actions) => {
-			alert(JSON.stringify(values, null, 2));
+		onSubmit: async (values, actions) => {
+			const { username, password } = values;
+			try {
+				const response = await axios.post(
+					process.env.NEXT_PUBLIC_API_URL + '/admin',
+					{
+						username,
+						password,
+					}
+				);
+				if (response.status === 200) {
+					toast.success(response.data.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+					push('/admin/profile');
+				}
+			} catch (error) {
+				if (!error.response.status === 400) {
+					toast.error(error.response.data.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+				}
+			}
 			actions.resetForm();
 		},
 		validationSchema: adminSchema,
@@ -71,4 +95,21 @@ const LoginPage = () => {
 		</div>
 	);
 };
+
+export const getServerSideProps = async (context) => {
+	const myCookie = context.req?.cookies ?? '';
+	if (myCookie.token === process.env.ADMIN_TOKEN) {
+		return {
+			redirect: {
+				destination: '/admin/profile',
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {},
+	};
+};
+
 export default LoginPage;

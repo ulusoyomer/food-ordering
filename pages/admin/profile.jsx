@@ -14,11 +14,31 @@ import AdminProductsSection from '../../components/sections/AdminProductsSection
 import AdminOrdersSection from '../../components/sections/AdminOrdersSection';
 import AdminCategoriesSection from '../../components/sections/AdminCategoriesSection';
 import AdminSettingsSection from '../../components/sections/AdminSettingsSection';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const AdminProfilePage = () => {
 	const [content, setContent] = React.useState('products');
+	const { push } = useRouter();
 
-	const logout = () => {};
+	const logoutAdmin = async () => {
+		try {
+			if (confirm('Çıkmak istediğinize emin misiniz?')) {
+				const response = await axios.put(
+					`${process.env.NEXT_PUBLIC_API_URL}/admin`
+				);
+				if (response.status === 200) {
+					toast.success(response.data.message, {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+					push('/admin');
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<div className="profile">
@@ -80,7 +100,7 @@ const AdminProfilePage = () => {
 					Site Ayarları
 				</button>
 				<button
-					onClick={logout}
+					onClick={logoutAdmin}
 					className="profile__button btn btn-primary"
 				>
 					<BsFillXCircleFill />
@@ -95,6 +115,22 @@ const AdminProfilePage = () => {
 			</div>
 		</div>
 	);
+};
+
+export const getServerSideProps = async (context) => {
+	const myCookie = context.req?.cookies ?? '';
+	if (myCookie.token !== process.env.ADMIN_TOKEN) {
+		return {
+			redirect: {
+				destination: '/admin',
+				permanent: false,
+			},
+		};
+	}
+
+	return {
+		props: {},
+	};
 };
 
 export default AdminProfilePage;

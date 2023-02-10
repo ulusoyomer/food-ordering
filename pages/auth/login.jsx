@@ -21,7 +21,7 @@ const LoginPage = () => {
 			};
 			const response = await signIn('credentials', options);
 			console.log(response);
-			//	actions.resetForm();
+			actions.resetForm();
 		},
 		validationSchema: loginSchema,
 	});
