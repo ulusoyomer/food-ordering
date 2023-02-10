@@ -14,7 +14,18 @@ const LoginPage = () => {
 			password: '',
 		},
 		onSubmit: (values, actions) => {
-			alert(JSON.stringify(values, null, 2));
+			const { email, password } = values;
+			let options = {
+				redirect: false,
+				email,
+				password,
+			};
+			try {
+				const response = signIn('credentials', options);
+				console.log(response);
+			} catch (err) {
+				console.log(err);
+			}
 			actions.resetForm();
 		},
 		validationSchema: loginSchema,
