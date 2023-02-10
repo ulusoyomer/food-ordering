@@ -11,11 +11,22 @@ import PasswordSection from '../../components/sections/PasswordSection';
 
 import ProfileSection from '../../components/sections/ProfileSection';
 import OrdersSection from '../../components/sections/OrdersSection';
+import { signOut, getSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const ProfilePage = () => {
 	const [content, setContent] = React.useState('profile');
-
-	const logout = () => {};
+	const { push } = useRouter();
+	const logout = () => {
+		if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+			signOut({ redirect: false });
+			toast.success('Çıkış Başarılı', {
+				position: toast.POSITION.TOP_RIGHT,
+			});
+			push('/');
+		}
+	};
 
 	return (
 		<div className="profile">
@@ -81,6 +92,21 @@ const ProfilePage = () => {
 			</div>
 		</div>
 	);
+};
+
+export const getServerSideProps = async ({ req }) => {
+	const session = await getSession({ req });
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/auth/login',
+				permanent: false,
+			},
+		};
+	}
+	return {
+		props: {},
+	};
 };
 
 export default ProfilePage;

@@ -6,8 +6,11 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
 const RegisterPage = () => {
+	const { push } = useRouter();
+
 	const formik = useFormik({
 		initialValues: {
 			name: '',
@@ -26,6 +29,7 @@ const RegisterPage = () => {
 					toast.success(response.data.message, {
 						position: toast.POSITION.TOP_RIGHT,
 					});
+					push('/auth/login');
 				}
 			} catch (error) {
 				if (!error.response.data.success) {

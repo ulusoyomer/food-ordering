@@ -3,10 +3,15 @@ import TitlePrimary from '../../components/ui/TitlePrimary';
 import { FaGithub } from 'react-icons/fa';
 import { useFormik } from 'formik';
 import { loginSchema } from '../../schema/loginSchema';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession, signIn, getSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const LoginPage = () => {
 	const { data: session } = useSession();
+
+	const { push } = useRouter();
 	const formik = useFormik({
 		initialValues: {
 			email: '',
@@ -19,12 +24,30 @@ const LoginPage = () => {
 				email,
 				password,
 			};
-			const response = await signIn('credentials', options);
-			console.log(response);
+			try {
+				const response = await signIn('credentials', options);
+				if (response.status === 200) {
+					toast.success('Giriş Başarılı', {
+						position: toast.POSITION.TOP_RIGHT,
+					});
+				}
+			} catch (error) {
+				toast.error('Giriş Başarısız', {
+					position: toast.POSITION.TOP_RIGHT,
+				});
+			}
+
 			actions.resetForm();
 		},
 		validationSchema: loginSchema,
 	});
+
+	useEffect(() => {
+		if (session) {
+			push('/profile');
+		}
+	}, [push, session]);
+
 	return (
 		<div className="login">
 			<TitlePrimary>Giriş Yap</TitlePrimary>
@@ -98,4 +121,19 @@ const LoginPage = () => {
 		</div>
 	);
 };
+export const getServerSideProps = async ({ req }) => {
+	const session = await getSession({ req });
+	if (session) {
+		return {
+			redirect: {
+				destination: '/profile',
+				permanent: false,
+			},
+		};
+	}
+	return {
+		props: {},
+	};
+};
+
 export default LoginPage;
