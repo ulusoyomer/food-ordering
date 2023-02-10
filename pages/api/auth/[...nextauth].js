@@ -6,9 +6,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/models/User';
 import dbConnect from '@/util/dbConnect';
 import bcrypt from 'bcryptjs';
-dbConnect();
+
 export const authOptions = {
-	// adapter: MongoDBAdapter(clientPromise),
+	//adapter: MongoDBAdapter(clientPromise),
 	providers: [
 		GithubProvider({
 			clientId: process.env.GITHUB_ID,
@@ -16,21 +16,15 @@ export const authOptions = {
 		}),
 		CredentialsProvider({
 			name: 'Credentials',
-			credentials: {
-				username: {
-					label: 'Username',
-					type: 'text',
-					placeholder: 'jsmith',
-				},
-				password: { label: 'Password', type: 'password' },
-			},
+
 			async authorize(credentials, req) {
+				await dbConnect();
 				const { email, password } = credentials;
-				const user = User.findOne({ email });
+				const user = await User.findOne({ email });
 				if (user) {
 					return signInUser({ user, password });
 				} else {
-					throw new Error('Sistemde Kayıtlı Email Bulunamadı');
+					throw new Error('Kullanıcı Bulunamadı');
 				}
 			},
 		}),

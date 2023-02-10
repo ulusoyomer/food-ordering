@@ -7,26 +7,21 @@ import { useSession, signIn } from 'next-auth/react';
 
 const LoginPage = () => {
 	const { data: session } = useSession();
-	console.log(session);
 	const formik = useFormik({
 		initialValues: {
 			email: '',
 			password: '',
 		},
-		onSubmit: (values, actions) => {
+		onSubmit: async (values, actions) => {
 			const { email, password } = values;
-			let options = {
+			const options = {
 				redirect: false,
 				email,
 				password,
 			};
-			try {
-				const response = signIn('credentials', options);
-				console.log(response);
-			} catch (err) {
-				console.log(err);
-			}
-			actions.resetForm();
+			const response = await signIn('credentials', options);
+			console.log(response);
+			//	actions.resetForm();
 		},
 		validationSchema: loginSchema,
 	});
