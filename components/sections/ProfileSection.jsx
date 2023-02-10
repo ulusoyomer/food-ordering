@@ -1,18 +1,28 @@
-import React from 'react';
 import { useFormik } from 'formik';
-import { profileSchema } from '../../schema/profilSchema';
+import axios from 'axios';
+import { profileSchema } from '@/schema/profilSchema';
+import { toast } from 'react-toastify';
 
-const ProfileSection = () => {
+const ProfileSection = ({ name, email, tel, address, id }) => {
 	const profilFormik = useFormik({
 		initialValues: {
-			name: '',
-			email: '',
-			tel: '',
-			address: '',
+			name,
+			email,
+			tel,
+			address,
 		},
-		onSubmit: (values, actions) => {
-			alert(JSON.stringify(values, null, 2));
-			actions.resetForm();
+		onSubmit: async (values, actions) => {
+			try {
+				const response = await axios.put(
+					`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`,
+					values
+				);
+				if (response.status === 200) {
+					toast.success('Profil Güncellendi', {
+						position: 'top-right',
+					});
+				}
+			} catch (error) {}
 		},
 		validationSchema: profileSchema,
 	});

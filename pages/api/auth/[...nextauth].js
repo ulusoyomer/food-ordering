@@ -6,9 +6,13 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '@/models/User';
 import dbConnect from '@/util/dbConnect';
 import bcrypt from 'bcryptjs';
+import { useSession } from 'next-auth/react';
 
 export const authOptions = {
 	//adapter: MongoDBAdapter(clientPromise),
+	session: {
+		strategy: 'jwt',
+	},
 	providers: [
 		GithubProvider({
 			clientId: process.env.GITHUB_ID,
@@ -16,32 +20,36 @@ export const authOptions = {
 		}),
 		CredentialsProvider({
 			name: 'Credentials',
-
+			credentials: {
+				email: { label: 'Email', type: 'text', placeholder: 'email' },
+				password: { label: 'Password', type: 'password' },
+			},
 			async authorize(credentials, req) {
 				await dbConnect();
 				const { email, password } = credentials;
 				const user = await User.findOne({ email });
 				if (user) {
-					return signInUser({ user, password });
+					const isMatch = await bcrypt.compare(password, user.password);
+					if (!isMatch) {
+						throw new Error('Parola Yanlış');
+					} else {
+						return {
+							name: user._id,
+							email: user.email,
+						};
+					}
 				} else {
 					throw new Error('Kullanıcı Bulunamadı');
 				}
 			},
 		}),
 	],
+
 	pages: {
 		signIn: '/auth/login',
 	},
 	database: process.env.MONGODB_URI,
 	secret: 'secret',
-};
-
-const signInUser = async ({ user, password }) => {
-	const isMatch = await bcrypt.compare(password, user.password);
-	if (!isMatch) {
-		throw new Error('Parola Yanlış');
-	}
-	return user;
 };
 
 export default NextAuth(authOptions);

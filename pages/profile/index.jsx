@@ -14,8 +14,9 @@ import OrdersSection from '../../components/sections/OrdersSection';
 import { signOut, getSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
-const ProfilePage = () => {
+const ProfilePage = ({ user }) => {
 	const [content, setContent] = React.useState('profile');
 	const { push } = useRouter();
 	const logout = () => {
@@ -33,7 +34,7 @@ const ProfilePage = () => {
 			<div className="profile__menu">
 				<div className="profile__image">
 					<Image
-						src={'/images/about-img.jpg'}
+						src={user.image ?? '/images/about-img.jpg'}
 						width={100}
 						height={100}
 						alt="profile"
@@ -41,7 +42,7 @@ const ProfilePage = () => {
 					/>
 				</div>
 				<p className="text-center text-bold text-3xl font-poppins my-3">
-					User Name
+					{user.name}
 				</p>
 				<button
 					onClick={(e) => setContent('profile')}
@@ -85,9 +86,17 @@ const ProfilePage = () => {
 				</button>
 			</div>
 			<div className="profile__content">
-				{content === 'profile' && <ProfileSection />}
+				{content === 'profile' && (
+					<ProfileSection
+						id={user._id}
+						name={user.name}
+						email={user.email}
+						tel={user.tel ?? ''}
+						address={user.address ?? ''}
+					/>
+				)}
 
-				{content === 'password' && <PasswordSection />}
+				{content === 'password' && <PasswordSection id={user._id} />}
 				{content === 'orders' && <OrdersSection />}
 			</div>
 		</div>
@@ -104,8 +113,14 @@ export const getServerSideProps = async ({ req }) => {
 			},
 		};
 	}
+	const user = await axios.get(
+		`${process.env.NEXT_PUBLIC_API_URL}/users/${session?.user.name}`
+	);
+
 	return {
-		props: {},
+		props: {
+			user: user ? user.data.data : null,
+		},
 	};
 };
 

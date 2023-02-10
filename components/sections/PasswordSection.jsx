@@ -1,16 +1,27 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { passwordSchema } from '../../schema/passwordSchema';
-const PasswordSection = () => {
+import axios from 'axios';
+import { toast } from 'react-toastify';
+const PasswordSection = ({ id }) => {
 	const passwordFormik = useFormik({
 		initialValues: {
 			password: '',
 			newPassword: '',
 			newPasswordConfirm: '',
 		},
-		onSubmit: (values, actions) => {
-			alert(JSON.stringify(values, null, 2));
-			actions.resetForm();
+		onSubmit: async (values, actions) => {
+			try {
+				const response = await axios.patch(
+					`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`,
+					values
+				);
+				if (response.status === 200) {
+					toast.success('Şifre Güncellendi', {
+						position: 'top-right',
+					});
+				}
+			} catch (error) {}
 		},
 		validationSchema: passwordSchema,
 	});

@@ -44,7 +44,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		if (session) {
-			push('/profile');
+			push('/profile/');
 		}
 	}, [push, session]);
 
