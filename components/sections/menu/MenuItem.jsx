@@ -11,6 +11,7 @@ const MenuItem = () => {
 						alt="menu_image"
 						width={300}
 						height={300}
+						priority 
 					/>
 				</div>
 				<div className="menu__item--content">

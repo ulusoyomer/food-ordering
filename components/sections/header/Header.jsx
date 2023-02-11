@@ -69,10 +69,16 @@ const Header = () => {
 						</ul>
 					</div>
 					<div className="header__buttons">
-						<Link className="header_buttons--link" href="/auth/login">
+						<Link
+							className="header_buttons--link cursor-pointer"
+							href="/auth/login"
+						>
 							<FaUserAlt />
 						</Link>
-						<Link className="header_buttons--link relative" href="/cart">
+						<Link
+							className="header_buttons--link relative cursor-pointer"
+							href="/cart"
+						>
 							<div className="text-xs rounded-full w-5 h-5 absolute bg-red-600 text-white -right-3 -top-3 text-center flex items-center justify-center">
 								{piece}
 							</div>

@@ -1,13 +1,86 @@
 import React from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const AdminCategoriesSection = () => {
+	const categoryRef = React.useRef(null);
+	const [categories, setCategories] = React.useState([]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		try {
+			const response = await axios.post(
+				`${process.env.NEXT_PUBLIC_API_URL}/categories`,
+				{ name: categoryRef.current.value }
+			);
+			if (response.data.success) {
+				setCategories([
+					...categories,
+					{ _id: response.data.data._id, name: categoryRef.current.value },
+				]);
+				toast.success(response.data.message, {
+					position: 'top-right',
+				});
+				categoryRef.current.value = '';
+			}
+		} catch (error) {
+			toast.error('Kategori Eklenemedi', {
+				position: 'top-right',
+			});
+			console.log(error);
+		}
+	};
+
+	const getCategories = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/categories`
+			);
+			if (response.data.success) {
+				setCategories(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	React.useEffect(() => {
+		getCategories();
+	}, []);
+
+	const deleteCategory = async (id) => {
+		if (confirm('Kategoriyi silmek istediğinize emin misiniz?')) {
+			try {
+				const response = await axios.delete(
+					`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`
+				);
+				if (response.data.success) {
+					const newCategories = categories.filter(
+						(category) => category._id !== id
+					);
+					setCategories(newCategories);
+					toast.success(response.data.message, {
+						position: 'top-right',
+					});
+				}
+			} catch (error) {
+				toast.error('Kategori Silinemedi', {
+					position: 'top-right',
+				});
+				console.log(error);
+			}
+		}
+	};
+
 	return (
 		<div className="profile__items">
 			<h1 className="profile__content--title">Kategoriler</h1>
 			<div className="profile__items--content">
-				<form className="profile__items--form">
+				<form onSubmit={handleSubmit} className="profile__items--form">
 					<label htmlFor="password">Kategori Adı</label>
 					<input
+						ref={categoryRef}
 						className="input"
 						type="text"
 						name="category"
@@ -19,18 +92,29 @@ const AdminCategoriesSection = () => {
 					</button>
 				</form>
 				<h4>Kategoriler</h4>
-				<div className="profile__items--categories">
-					<div>Kategori Adı</div>
-					<div>
-						<button className="btn btn-red">Sil</button>
-					</div>
-				</div>
-				<div className="profile__items--categories">
-					<div>Kategori Adı</div>
-					<div>
-						<button className="btn btn-red">Sil</button>
-					</div>
-				</div>
+				{categories.length > 0 ? (
+					categories.map((category) => {
+						return (
+							<div
+								key={category._id}
+								className="profile__items--categories"
+							>
+								<div>{category.name}</div>
+								<div>
+									<button
+										onClick={() => deleteCategory(category._id)}
+										type="button"
+										className="btn btn-red"
+									>
+										Sil
+									</button>
+								</div>
+							</div>
+						);
+					})
+				) : (
+					<p>Kategori Bulunamadı</p>
+				)}
 			</div>
 		</div>
 	);
