@@ -1,7 +1,13 @@
 import TitlePrimary from '@/components/ui/TitlePrimary';
+import { useState } from 'react';
 import MenuItem from './MenuItem';
 
-const Menu = () => {
+const Menu = ({ categoryList }) => {
+	const [activeCategory, setActiveCategory] = useState(0);
+	const handleCategory = (index) => {
+		setActiveCategory(index);
+	};
+
 	return (
 		<div className="menu">
 			<div className="menu__container">
@@ -9,18 +15,31 @@ const Menu = () => {
 					<TitlePrimary>Menü</TitlePrimary>
 				</div>
 				<div className="menu__category">
-					<button className="menu__category--item btn btn-primary btn-active">
+					<button
+						onClick={() => handleCategory(0)}
+						className={
+							activeCategory === 0
+								? 'menu__category--item btn btn-primary btn-active'
+								: 'menu__category--item btn btn-primary'
+						}
+					>
 						Hepsi
 					</button>
-					<button className="menu__category--item btn btn-primary">
-						Kahvaltı
-					</button>
-					<button className="menu__category--item btn btn-primary">
-						Hamburger
-					</button>
-					<button className="menu__category--item btn btn-primary">
-						Pizza
-					</button>
+					{categoryList.map((category) => {
+						return (
+							<button
+								key={category._id}
+								onClick={() => handleCategory(category._id)}
+								className={
+									activeCategory === category._id
+										? 'menu__category--item btn btn-primary btn-active'
+										: 'menu__category--item btn btn-primary'
+								}
+							>
+								{category.name}
+							</button>
+						);
+					})}
 				</div>
 				<div className="menu__foods">
 					<MenuItem />

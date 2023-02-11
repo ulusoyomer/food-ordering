@@ -96,6 +96,8 @@ const HeroSlider = () => {
 											width={500}
 											height={500}
 											loading="lazy"
+											placeholder="blur"
+											blurDataURL="/images/preload.gif"
 										/>
 									</Link>
 								</div>

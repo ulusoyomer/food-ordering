@@ -2,9 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const AdminCategoriesSection = () => {
+const AdminCategoriesSection = ({ categories, setCategories }) => {
 	const categoryRef = React.useRef(null);
-	const [categories, setCategories] = React.useState([]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -31,23 +30,6 @@ const AdminCategoriesSection = () => {
 			console.log(error);
 		}
 	};
-
-	const getCategories = async () => {
-		try {
-			const response = await axios.get(
-				`${process.env.NEXT_PUBLIC_API_URL}/categories`
-			);
-			if (response.data.success) {
-				setCategories(response.data.data);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	React.useEffect(() => {
-		getCategories();
-	}, []);
 
 	const deleteCategory = async (id) => {
 		if (confirm('Kategoriyi silmek istediğinize emin misiniz?')) {

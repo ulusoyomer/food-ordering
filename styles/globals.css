@@ -69,6 +69,9 @@
 .btn.btn-red {
 	@apply bg-red-700 hover:bg-red-600;
 }
+.btn.btn-green {
+	@apply bg-green-700 hover:bg-green-600;
+}
 .btn.btn--full-rounded {
 	@apply rounded-full;
 }
@@ -77,6 +80,14 @@
 }
 .btn.btn--bigger {
 	@apply text-2xl;
+}
+
+.btn.btn--small {
+	@apply text-xs capitalize p-0 m-0 w-48 h-12;
+}
+
+.add-product__extra .btn {
+	@apply rounded-full hover:bg-red-700 px-1;
 }
 
 .table__cell .btn {
@@ -193,7 +204,9 @@
 	@apply text-dark2_secondary font-poppins font-bold;
 }
 
-.modal__search input {
+.modal__search input,
+.modal__search textarea,
+.modal__search select {
 	@apply w-full border-2 border-dark2_secondary rounded-md p-2 text-dark2_secondary bg-light outline-none;
 }
 
@@ -467,7 +480,7 @@
 }
 
 .cart__table {
-	@apply container mx-auto my-10;
+	@apply container mx-auto mb-10;
 }
 
 .cart__table thead {

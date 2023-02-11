@@ -10,7 +10,7 @@ import { BiCategory } from 'react-icons/bi';
 
 import { IoSettingsOutline } from 'react-icons/io5';
 
-import AdminProductsSection from '../../components/sections/AdminProductsSection';
+import AdminProductsSection from '../../components/sections/products/AdminProductsSection';
 import AdminOrdersSection from '../../components/sections/AdminOrdersSection';
 import AdminCategoriesSection from '../../components/sections/AdminCategoriesSection';
 import AdminSettingsSection from '../../components/sections/AdminSettingsSection';
@@ -18,9 +18,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const AdminProfilePage = () => {
+const AdminProfilePage = ({ categoryList }) => {
 	const [content, setContent] = React.useState('products');
 	const { push } = useRouter();
+	const [categories, setCategories] = React.useState(categoryList);
 
 	const logoutAdmin = async () => {
 		try {
@@ -108,9 +109,16 @@ const AdminProfilePage = () => {
 				</button>
 			</div>
 			<div className="profile__content">
-				{content === 'products' && <AdminProductsSection />}
+				{content === 'products' && (
+					<AdminProductsSection categories={categories} />
+				)}
 				{content === 'orders' && <AdminOrdersSection />}
-				{content === 'categories' && <AdminCategoriesSection />}
+				{content === 'categories' && (
+					<AdminCategoriesSection
+						categories={categories}
+						setCategories={setCategories}
+					/>
+				)}
 				{content === 'settings' && <AdminSettingsSection />}
 			</div>
 		</div>
@@ -126,11 +134,20 @@ export const getServerSideProps = async (context) => {
 				permanent: false,
 			},
 		};
+	} else {
+		try {
+			const response = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/categories`
+			);
+			return {
+				props: {
+					categoryList: response.data.data ?? [],
+				},
+			};
+		} catch (error) {
+			console.log(error);
+		}
 	}
-
-	return {
-		props: {},
-	};
 };
 
 export default AdminProfilePage;
