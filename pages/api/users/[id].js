@@ -9,25 +9,25 @@ const handler = async (req, res) => {
 		case 'GET':
 			try {
 				const user = await User.findById(id);
-				res.status(200).json({ success: true, data: user });
+				return res.status(200).json({ success: true, data: user });
 			} catch (error) {
-				res.status(404).json({ success: false });
+				return res.status(404).json({ success: false });
 			}
-			break;
+
 		case 'PUT':
 			try {
 				const user = await User.findByIdAndUpdate(id, req.body, {
 					new: true,
 				});
-				res.status(200).json({
+				return res.status(200).json({
 					success: true,
 					data: user,
 					message: 'Kullanıcı Bilgileri Güncellendi',
 				});
 			} catch (error) {
-				res.status(400).json({ success: false });
+				return res.status(400).json({ success: false });
 			}
-			break;
+
 		case 'PATCH':
 			try {
 				const user = await User.findById(id);
@@ -56,7 +56,7 @@ const handler = async (req, res) => {
 			} catch (error) {
 				return res.status(400).json({ success: false });
 			}
-			break;
+
 		default:
 			return res.status(400).json({ success: false });
 	}

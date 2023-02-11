@@ -2,10 +2,14 @@ import { FaWindowClose } from 'react-icons/fa';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useState, useEffect, useRef } from 'react';
 import TitlePrimary from '../../ui/TitlePrimary';
+import Image from 'next/image';
 const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 	const [extras, setExtras] = useState([]);
 	const extraNameRef = useRef();
 	const extraPriceRef = useRef();
+
+	const [file, setFile] = useState(null);
+	const [previewUrl, setPreviewUrl] = useState(null);
 
 	useEffect(() => {
 		setIsModalOpen(isModalOpen);
@@ -26,6 +30,17 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 		setExtras(newExtras);
 	};
 
+	const handleChangeEvent = (changeEvent) => {
+		const reader = new FileReader();
+		reader.onload = (onLoadEvent) => {
+			setPreviewUrl(onLoadEvent.target.result);
+			setFile(changeEvent.target.files[0]);
+		};
+		reader.readAsDataURL(changeEvent.target.files[0]);
+		console.log(file);
+		console.log(previewUrl);
+	};
+
 	return (
 		<div className={isModalOpen ? 'modal modal--active' : 'modal'}>
 			<OutsideClickHandler
@@ -34,7 +49,7 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 				}}
 				disabled={!isModalOpen}
 			>
-				<div className="modal__container">
+				<div className="modal__container h-[40rem] overflow-auto">
 					<button
 						onClick={() => setIsModalOpen(false)}
 						type="button"
@@ -49,14 +64,38 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 						<div className="modal__search">
 							<form>
 								<label htmlFor="image">Ürün Resmi</label>
-								<input
-									type="file"
-									className="input"
-									name="image"
-									id="image"
-								/>
+								<div className="flex flex-row gap-x-5">
+									<input
+										required
+										type="file"
+										className="input"
+										name="image"
+										id="image"
+										onChange={handleChangeEvent}
+									/>
+									{previewUrl && (
+										<div className="relative">
+											<Image
+												src={previewUrl}
+												alt="Ürün Resmi"
+												width={100}
+												height={100}
+											/>
+											<button
+												onClick={() => {
+													setPreviewUrl(null);
+													setFile(null);
+												}}
+												className="btn btn-red btn--small btn--now absolute right-2 top-0"
+											>
+												<FaWindowClose />
+											</button>
+										</div>
+									)}
+								</div>
 								<label htmlFor="name">Ürün Adı</label>
 								<input
+									required
 									type="text"
 									className="input"
 									name="name"
@@ -64,14 +103,16 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 								/>
 								<label htmlFor="name">Ürün Açıklama</label>
 								<textarea
+									required
 									className="input"
 									name="description"
 									id="description"
+									row="2"
 								/>
 								<label className="mb-3" htmlFor="category">
 									Ürün Kategori
 								</label>
-								<select>
+								<select name="category" id="category">
 									{categories.map((category) => {
 										return (
 											<option
@@ -88,21 +129,27 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 								</label>
 								<div className="flex flex-row gap-x-3">
 									<input
-										type="text"
+										required
+										type="number"
+										min="0"
 										className="input"
 										name="smallPrice"
 										id="smallPrice"
 										placeholder="Küçük"
 									/>
 									<input
-										type="text"
+										required
+										type="number"
+										min="0"
 										className="input"
 										name="mediumPrice"
 										id="mediumPrice"
 										placeholder="Orta"
 									/>
 									<input
-										type="text"
+										required
+										type="number"
+										min="0"
 										className="input"
 										name="bigPrice"
 										id="bigPrice"
@@ -142,6 +189,7 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 								<label>Ekstra Ekle</label>
 								<div className="flex flex-row gap-x-3 items-center">
 									<input
+										required
 										ref={extraNameRef}
 										className="input"
 										type="text"
@@ -150,9 +198,11 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										placeholder="Ekstra Adı"
 									/>
 									<input
+										required
 										ref={extraPriceRef}
 										className="input"
-										type="text"
+										type="number"
+										min="0"
 										name="extra_price"
 										id="extra_price"
 										placeholder="Ekstra Fiyatı"

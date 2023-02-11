@@ -9,19 +9,18 @@ const handler = async (req, res) => {
 		case 'GET':
 			try {
 				const users = await User.find();
-				res.status(200).json({ success: true, data: users });
+				return res.status(200).json({ success: true, data: users });
 			} catch (error) {}
 			break;
 		case 'POST':
 			try {
 				const user = await User.create(req.body);
-				res.status(201).json({ success: true, data: user });
+				return res.status(201).json({ success: true, data: user });
 			} catch (error) {
-				res.status(400).json({ success: false });
+				return res.status(400).json({ success: false });
 			}
 		default:
-			res.status(400).json({ success: false });
-			break;
+			return res.status(400).json({ success: false });
 	}
 };
 

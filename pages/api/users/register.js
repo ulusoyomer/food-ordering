@@ -8,24 +8,23 @@ const handler = async (req, res) => {
 	const { body } = req;
 	const user = await User.findOne({ email: body.email });
 	if (user) {
-		res.status(400).json({
+		return res.status(400).json({
 			success: false,
 			message: 'Email Sisteme Kayıtlı',
 		});
-		return;
 	}
 	try {
 		const newUser = await User.create(body);
 		const salt = await bcrypt.genSalt(10);
 		newUser.password = await bcrypt.hash(newUser.password, salt);
 		await newUser.save();
-		res.status(201).json({
+		return res.status(201).json({
 			success: true,
 			data: newUser,
 			message: 'Kayıt Başarılı',
 		});
 	} catch (error) {
-		res.status(400).json({ success: false, message: error.message });
+		return res.status(400).json({ success: false, message: error.message });
 	}
 };
 
