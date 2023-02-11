@@ -21,6 +21,11 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 		extraPriceRef.current.value = '';
 	};
 
+	const deleteExtra = (index) => {
+		const newExtras = extras.filter((extra, i) => i !== index);
+		setExtras(newExtras);
+	};
+
 	return (
 		<div className={isModalOpen ? 'modal modal--active' : 'modal'}>
 			<OutsideClickHandler
@@ -118,7 +123,13 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 															{extra.name} - {extra.price}₺
 														</div>
 														<div>
-															<button className="btn btn-red rounded-full">
+															<button
+																type="button"
+																onClick={() =>
+																	deleteExtra(index)
+																}
+																className="btn btn-red rounded-full"
+															>
 																<FaWindowClose />
 															</button>
 														</div>
