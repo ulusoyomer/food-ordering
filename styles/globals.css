@@ -398,7 +398,10 @@
 	@apply w-[40rem] max-sm:w-[20rem];
 }
 .product__price {
-	@apply text-secondary font-poppins font-bold text-2xl mb-4 mt-4;
+	@apply text-secondary font-poppins font-bold text-3xl mb-4 mt-4;
+}
+.product__quantity {
+	@apply text-sm text-gray font-poppins font-medium;
 }
 .product__info--text {
 	@apply max-w-lg font-poppins text-lg text-gray mb-4;

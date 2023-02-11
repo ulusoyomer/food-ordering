@@ -23,31 +23,27 @@ const itemsExtra = [
 ];
 
 const sizePrice = {
-	Küçük: 0,
-	Orta: 10,
-	Büyük: 20,
+	Küçük: 20,
+	Orta: 30,
+	Büyük: 50,
 };
-const itemPrice = 10;
 
 const itemId = 1;
 
 const Product = () => {
 	const [extraItems, setExtraItems] = useState([]);
 	const [selectedSize, setSelectedSize] = useState('Küçük');
-	const [totalPrice, setTotalPrice] = useState(itemPrice);
-	const [price, setPrice] = useState(itemPrice);
+	const [totalPrice, setTotalPrice] = useState(sizePrice[0]);
 
 	const [quantity, setQuantity] = useState(1);
 
+	useEffect(() => {
+		const sizeValue = sizePrice[selectedSize];
+		const extraValue = extraItems.reduce((acc, item) => acc + item.price, 0);
+		setTotalPrice((sizeValue + extraValue) * quantity);
+	}, [selectedSize, extraItems, quantity]);
+
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		setTotalPrice(price + sizePrice[selectedSize]);
-	}, [price, selectedSize]);
-
-	useEffect(() => {
-		quantity < 1 && setQuantity(1);
-	}, [quantity]);
 
 	return (
 		<>
@@ -64,7 +60,8 @@ const Product = () => {
 				<div className="product__info px-5">
 					<TitlePrimary>Hamburger</TitlePrimary>
 					<div className="product__price">
-						{totalPrice} <span>₺</span>
+						{totalPrice} <span>₺</span>{' '}
+						<span className="product__quantity">x{quantity}</span>
 					</div>
 					<p className="product__info--text">
 						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse
@@ -117,10 +114,8 @@ const Product = () => {
 											type="checkbox"
 											onChange={(e) => {
 												if (e.target.checked) {
-													setPrice(price + item.price);
 													setExtraItems([...extraItems, item]);
 												} else {
-													setPrice(price - item.price);
 													setExtraItems(
 														extraItems.filter(
 															(i) => i.id !== item.id
