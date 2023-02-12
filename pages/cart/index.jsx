@@ -48,8 +48,8 @@ const CartPage = () => {
 
 													<p className="table__info">
 														<Image
-															src="/images/f1.png"
-															alt="ürün title"
+															src={item.image}
+															alt={item.name}
 															width={65}
 															height={65}
 														/>

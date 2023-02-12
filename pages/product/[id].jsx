@@ -3,37 +3,15 @@ import TitlePrimary from '../../components/ui/TitlePrimary';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/reducers/cartSlice';
+import axios from 'axios';
 
-const itemsExtra = [
-	{
-		id: 1,
-		name: 'Ketçap',
-		price: 2,
-	},
-	{
-		id: 2,
-		name: 'Mayonez',
-		price: 2,
-	},
-	{
-		id: 3,
-		name: 'Hardal',
-		price: 2,
-	},
-];
-
-const sizePrice = {
-	Küçük: 20,
-	Orta: 30,
-	Büyük: 50,
-};
-
-const itemId = 1;
-
-const Product = () => {
+const Product = ({ product, prices }) => {
 	const [extraItems, setExtraItems] = useState([]);
-	const [selectedSize, setSelectedSize] = useState('Küçük');
-	const [totalPrice, setTotalPrice] = useState(sizePrice[0]);
+	const [selectedSize, setSelectedSize] = useState(0);
+	const [itemsExtra] = useState(product.extras);
+	const [sizePrice] = useState(prices);
+
+	const [totalPrice, setTotalPrice] = useState(prices[0]);
 
 	const [quantity, setQuantity] = useState(1);
 
@@ -41,7 +19,7 @@ const Product = () => {
 		const sizeValue = sizePrice[selectedSize];
 		const extraValue = extraItems.reduce((acc, item) => acc + item.price, 0);
 		setTotalPrice((sizeValue + extraValue) * quantity);
-	}, [selectedSize, extraItems, quantity]);
+	}, [selectedSize, extraItems, quantity, sizePrice]);
 
 	const dispatch = useDispatch();
 
@@ -50,88 +28,73 @@ const Product = () => {
 			<div className="product">
 				<div className="product__image">
 					<Image
-						src="/images/f1.png"
+						src={product.image}
 						width={300}
 						height={300}
-						alt="product image"
+						alt={product.name}
 						priority
 					/>
 				</div>
 				<div className="product__info px-5">
-					<TitlePrimary>Hamburger</TitlePrimary>
+					<TitlePrimary>{product.name}</TitlePrimary>
 					<div className="product__price">
 						{totalPrice} <span>₺</span>{' '}
 						<span className="product__quantity">x{quantity}</span>
 					</div>
-					<p className="product__info--text">
-						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse
-						facere consequatur voluptate. Saepe, perferendis harum
-						assumenda doloremque incidunt nulla. Ipsum?
-					</p>
+					<p className="product__info--text">{product.description}</p>
+					<h3 className="text-2xl">Boyut</h3>
 					<div className="product__size">
-						<button
-							type="button"
-							className={
-								selectedSize === 'Küçük'
-									? 'product__size--item btn btn-primary btn-active'
-									: 'product__size--item btn btn-primary'
-							}
-							onClick={() => setSelectedSize('Küçük')}
-						>
-							Küçük
-						</button>
-						<button
-							type="button"
-							className={
-								selectedSize === 'Orta'
-									? 'product__size--item btn btn-primary btn-active'
-									: 'product__size--item btn btn-primary'
-							}
-							onClick={() => setSelectedSize('Orta')}
-						>
-							Orta
-						</button>
-						<button
-							type="button"
-							className={
-								selectedSize === 'Büyük'
-									? 'product__size--item btn btn-primary btn-active'
-									: 'product__size--item btn btn-primary'
-							}
-							onClick={() => setSelectedSize('Büyük')}
-						>
-							Büyük
-						</button>
-					</div>
-					<div className="product__extra">
-						<h3>Extra Malzeme</h3>
-						<div className="product__extra--items">
-							{itemsExtra.map((item) => {
+						{prices.map((price, index) => {
+							if (price > 1) {
 								return (
-									<div key={item.id}>
-										<label htmlFor="extra1">{item.name}</label>
-										<input
-											type="checkbox"
-											onChange={(e) => {
-												if (e.target.checked) {
-													setExtraItems([...extraItems, item]);
-												} else {
-													setExtraItems(
-														extraItems.filter(
-															(i) => i.id !== item.id
-														)
-													);
-												}
-											}}
-											id={item.name}
-											name={item.name}
-											className="mx-2"
-										/>
-									</div>
+									<button
+										key={index}
+										type="button"
+										className={
+											selectedSize === index
+												? 'product__size--item btn btn-primary btn-active'
+												: 'product__size--item btn btn-primary'
+										}
+										onClick={() => setSelectedSize(index)}
+									>
+										{price} ₺
+									</button>
 								);
-							})}
-						</div>
+							}
+						})}
 					</div>
+					{itemsExtra.length > 0 && (
+						<div className="product__extra">
+							<h3>Extra Malzeme</h3>
+							<div className="product__extra--items">
+								{itemsExtra.map((item, index) => {
+									return (
+										<div key={index}>
+											<label htmlFor="extra1">{item.name}</label>
+											<input
+												type="checkbox"
+												onChange={(e) => {
+													if (e.target.checked) {
+														setExtraItems([...extraItems, item]);
+													} else {
+														setExtraItems(
+															extraItems.filter(
+																(i) => i._id !== item._id
+															)
+														);
+													}
+												}}
+												id={item.name}
+												name={item.name}
+												className="mx-2"
+											/>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+					)}
+
 					<div className="product__extra">
 						<h3>Adet</h3>
 						<input
@@ -146,12 +109,13 @@ const Product = () => {
 						onClick={() => {
 							dispatch(
 								addToCart({
-									id: itemId,
-									name: 'Hamburger',
-									price: totalPrice,
+									id: product._id,
+									name: product.name,
+									price: totalPrice / quantity,
 									size: selectedSize,
 									extra: extraItems,
 									amount: quantity,
+									image: product.image,
 								})
 							);
 						}}
@@ -164,5 +128,24 @@ const Product = () => {
 			</div>
 		</>
 	);
+};
+export const getServerSideProps = async ({ params: { id } }) => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
+		);
+		const { data } = response.data;
+		const prices = data.prices.filter((price) => price > 0);
+		return {
+			props: {
+				product: data,
+				prices,
+			},
+		};
+	} catch (error) {
+		return {
+			props: {},
+		};
+	}
 };
 export default Product;
