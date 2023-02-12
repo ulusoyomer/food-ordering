@@ -5,6 +5,8 @@ import TitlePrimary from '../../ui/TitlePrimary';
 import Image from 'next/image';
 import { useFormik } from 'formik';
 import { productSchema } from '../../../schema/productSchema';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 	const [extras, setExtras] = useState([]);
 	const extraNameRef = useRef();
@@ -27,7 +29,56 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 			bigPrice: 0,
 			description: '',
 		},
-		onSubmit: async (values, actions) => {},
+		onSubmit: async (values, actions) => {
+			const {
+				name,
+				description,
+				category,
+				smallPrice,
+				mediumPrice,
+				bigPrice,
+			} = values;
+
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('upload_preset', 'food-ordering');
+			try {
+				const uploadImage = await axios.post(
+					'https://api.cloudinary.com/v1_1/dh8oci3oc/image/upload',
+					formData
+				);
+				const data = {
+					name,
+					description,
+					category,
+					prices: [smallPrice, mediumPrice, bigPrice],
+					extras: extras,
+					image: uploadImage.data.secure_url,
+				};
+				try {
+					const response = await axios.post(
+						`${process.env.NEXT_PUBLIC_API_URL}/products`,
+						data
+					);
+					if (response.status === 201) {
+						actions.resetForm();
+						setIsModalOpen(false);
+						setExtras([]);
+						setPreviewUrl(null);
+						setFile(null);
+						toast.success(response.data.message, {
+							position: 'top-right',
+						});
+					}
+				} catch (error) {
+					toast.error('Ürün Eklenemedi', {
+						position: 'top-right',
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 		validationSchema: productSchema,
 	});
 
@@ -53,8 +104,6 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 			setFile(changeEvent.target.files[0]);
 		};
 		reader.readAsDataURL(changeEvent.target.files[0]);
-		console.log(file);
-		console.log(previewUrl);
 	};
 
 	return (
@@ -78,7 +127,7 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 					</div>
 					<div className="modal__content">
 						<div className="modal__search">
-							<form>
+							<form onSubmit={formik.handleSubmit}>
 								<label htmlFor="image">Ürün Resmi</label>
 								<div className="flex flex-row gap-x-5">
 									<input
@@ -99,8 +148,8 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 											<Image
 												src={previewUrl}
 												alt="Ürün Resmi"
-												width={100}
-												height={100}
+												width={90}
+												height={90}
 											/>
 											<button
 												onClick={() => {
@@ -266,7 +315,6 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 								<label>Ekstra Ekle</label>
 								<div className="flex flex-row gap-x-3 items-center">
 									<input
-										required
 										ref={extraNameRef}
 										className="input"
 										type="text"
@@ -275,7 +323,6 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										placeholder="Ekstra Adı"
 									/>
 									<input
-										required
 										ref={extraPriceRef}
 										className="input"
 										type="number"
