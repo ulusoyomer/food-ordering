@@ -1,5 +1,5 @@
 import dbConnect from '@/util/dbConnect';
-import Product from '@/models/Product';
+import Order from '@/models/Order';
 
 const handler = async (req, res) => {
 	await dbConnect();
@@ -11,15 +11,15 @@ const handler = async (req, res) => {
 	switch (method) {
 		case 'DELETE':
 			try {
-				const product = await Product.findByIdAndDelete(id);
-				if (!product) {
+				const order = await Order.findByIdAndDelete(id);
+				if (!order) {
 					return res
 						.status(404)
-						.json({ success: false, message: 'Ürün Bulunamadı' });
+						.json({ success: false, message: 'Sipariş Bulunamadı' });
 				}
 				return res.status(200).json({
 					success: true,
-					data: product,
+					data: order,
 					message: 'Ürün Başarıyla Silindi',
 				});
 			} catch (error) {
@@ -29,15 +29,15 @@ const handler = async (req, res) => {
 			}
 		case 'GET':
 			try {
-				const product = await Product.findById(id);
-				if (!product) {
+				const order = await Order.findById(id);
+				if (!order) {
 					return res
 						.status(404)
-						.json({ success: false, message: 'Ürün Bulunamadı' });
+						.json({ success: false, message: 'Sipariş Bulunamadı' });
 				}
 				return res.status(200).json({
 					success: true,
-					data: product,
+					data: order,
 					message: 'Ürün Başarıyla Getirildi',
 				});
 			} catch (error) {

@@ -9,6 +9,11 @@ const handler = async (req, res) => {
 		case 'GET':
 			try {
 				const user = await User.findById(id);
+				if (!user) {
+					return res
+						.status(404)
+						.json({ success: false, message: 'Kullanıcı Bulunamadı' });
+				}
 				return res.status(200).json({ success: true, data: user });
 			} catch (error) {
 				return res.status(404).json({ success: false });
@@ -19,6 +24,11 @@ const handler = async (req, res) => {
 				const user = await User.findByIdAndUpdate(id, req.body, {
 					new: true,
 				});
+				if (!user) {
+					return res
+						.status(404)
+						.json({ success: false, message: 'Kullanıcı Bulunamadı' });
+				}
 				return res.status(200).json({
 					success: true,
 					data: user,
@@ -31,6 +41,11 @@ const handler = async (req, res) => {
 		case 'PATCH':
 			try {
 				const user = await User.findById(id);
+				if (!user) {
+					return res
+						.status(404)
+						.json({ success: false, message: 'Kullanıcı Bulunamadı' });
+				}
 				let isMatch = await bcrypt.compare(
 					req.body.password,
 					user.password

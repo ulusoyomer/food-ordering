@@ -8,13 +8,16 @@ const handler = async (req, res) => {
 		case 'DELETE':
 			try {
 				const category = await Category.findByIdAndDelete(id);
-				return res
-					.status(200)
-					.json({
-						success: true,
-						data: category,
-						message: 'Kategori silindi',
-					});
+				if (!category) {
+					return res
+						.status(404)
+						.json({ success: false, message: 'Kategori Bulunamadı' });
+				}
+				return res.status(200).json({
+					success: true,
+					data: category,
+					message: 'Kategori silindi',
+				});
 			} catch (error) {
 				return res.status(400).json({ success: false });
 			}

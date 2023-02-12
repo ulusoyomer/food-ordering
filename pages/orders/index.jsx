@@ -1,5 +1,4 @@
 import TitlePrimary from '@/components/ui/TitlePrimary';
-import Image from 'next/image';
 import {
 	MdPayment,
 	MdDeliveryDining,
