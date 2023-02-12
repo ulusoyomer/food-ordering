@@ -18,7 +18,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const AdminProfilePage = ({ categoryList }) => {
+const AdminProfilePage = ({ categoryList, productsList }) => {
 	const [content, setContent] = React.useState('products');
 	const { push } = useRouter();
 	const [categories, setCategories] = React.useState(categoryList);
@@ -110,7 +110,10 @@ const AdminProfilePage = ({ categoryList }) => {
 			</div>
 			<div className="profile__content">
 				{content === 'products' && (
-					<AdminProductsSection categories={categories} />
+					<AdminProductsSection
+						categories={categories}
+						productsList={productsList}
+					/>
 				)}
 				{content === 'orders' && <AdminOrdersSection />}
 				{content === 'categories' && (
@@ -136,12 +139,16 @@ export const getServerSideProps = async (context) => {
 		};
 	} else {
 		try {
-			const response = await axios.get(
+			const catagoriesResponse = await axios.get(
 				`${process.env.NEXT_PUBLIC_API_URL}/categories`
+			);
+			const productsResponse = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/products`
 			);
 			return {
 				props: {
-					categoryList: response.data.data ?? [],
+					categoryList: catagoriesResponse.data.data ?? [],
+					productsList: productsResponse.data.data ?? [],
 				},
 			};
 		} catch (error) {

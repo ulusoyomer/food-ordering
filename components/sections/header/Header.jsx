@@ -22,7 +22,9 @@ const Header = () => {
 							<Image
 								src="/images/logo.png"
 								alt="app_logo"
-								priority={true}
+								loading="lazy"
+								placeholder="blur"
+								blurDataURL="/images/preload.gif"
 								width={183}
 								height={63}
 							/>

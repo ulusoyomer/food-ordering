@@ -1,12 +1,23 @@
 import TitlePrimary from '@/components/ui/TitlePrimary';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MenuItem from './MenuItem';
 
-const Menu = ({ categoryList }) => {
+const Menu = ({ categoryList, productsList }) => {
 	const [activeCategory, setActiveCategory] = useState(0);
+	const [activeProducts, setActiveProducts] = useState(productsList);
+
 	const handleCategory = (index) => {
 		setActiveCategory(index);
 	};
+
+	useEffect(() => {
+		if (activeCategory !== 0) {
+			const newProductList = productsList.filter(
+				(product) => product.category === activeCategory
+			);
+			setActiveProducts(newProductList);
+		} else setActiveProducts(productsList);
+	}, [activeCategory, productsList]);
 
 	return (
 		<div className="menu">
@@ -42,14 +53,9 @@ const Menu = ({ categoryList }) => {
 					})}
 				</div>
 				<div className="menu__foods">
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
-					<MenuItem />
+					{activeProducts.map((product) => {
+						return <MenuItem key={product._id} {...product} />;
+					})}
 				</div>
 				<div className="menu__more">
 					<button className="btn btn-secondary--rounded btn--bigger ">

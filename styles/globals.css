@@ -327,7 +327,7 @@
 	@apply rounded-t-xl overflow-hidden bg-light text-center flex justify-center items-center;
 }
 .menu__item--image img {
-	@apply w-auto h-auto;
+	@apply w-[10.3rem] h-[9.3rem];
 }
 .menu__item--content {
 	@apply p-5;
@@ -342,7 +342,10 @@
 	@apply flex items-center justify-between p-4;
 }
 .menu__item--price {
-	@apply text-dark2_secondary font-poppins font-bold text-2xl;
+	@apply text-dark2_secondary font-poppins font-medium text-xl;
+}
+.menu__item--price span:not(:last-child):after {
+	content: ', ';
 }
 .menu__more {
 	@apply text-center pt-12;

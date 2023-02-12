@@ -65,7 +65,9 @@ const HeroSlider = () => {
 											alt="food_name"
 											width={500}
 											height={500}
-											priority={true}
+											loading="lazy"
+											placeholder="blur"
+											blurDataURL="/images/preload.gif"
 										/>
 									</Link>
 								</div>

@@ -5,13 +5,12 @@ import Campaigns from '@/components/sections/Campaigns';
 import About from '@/components/sections/About';
 import BookTable from '@/components/sections/BookTable';
 
-const Index = ({ categoryList }) => {
-	console.log(categoryList);
+const Index = ({ categoryList, productsList }) => {
 	return (
 		<>
 			<HeroSlider />
 			<Campaigns />
-			<Menu categoryList={categoryList} />
+			<Menu categoryList={categoryList} productsList={productsList} />
 			<About />
 			<BookTable />
 		</>

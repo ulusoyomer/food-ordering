@@ -7,7 +7,13 @@ import { useFormik } from 'formik';
 import { productSchema } from '../../../schema/productSchema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
+const AddProductModal = ({
+	isModalOpen,
+	setIsModalOpen,
+	categories,
+	products,
+	setProducts,
+}) => {
 	const [extras, setExtras] = useState([]);
 	const extraNameRef = useRef();
 	const extraPriceRef = useRef();
@@ -62,6 +68,8 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 					);
 					if (response.status === 201) {
 						actions.resetForm();
+						data._id = response.data.data._id;
+						setProducts([...products, data]);
 						setIsModalOpen(false);
 						setExtras([]);
 						setPreviewUrl(null);
