@@ -3,6 +3,8 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useState, useEffect, useRef } from 'react';
 import TitlePrimary from '../../ui/TitlePrimary';
 import Image from 'next/image';
+import { useFormik } from 'formik';
+import { productSchema } from '../../../schema/productSchema';
 const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 	const [extras, setExtras] = useState([]);
 	const extraNameRef = useRef();
@@ -14,6 +16,20 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 	useEffect(() => {
 		setIsModalOpen(isModalOpen);
 	}, [isModalOpen, setIsModalOpen]);
+
+	const formik = useFormik({
+		initialValues: {
+			name: '',
+			image: '',
+			category: categories[0]._id ?? '',
+			smallPrice: 0,
+			mediumPrice: 0,
+			bigPrice: 0,
+			description: '',
+		},
+		onSubmit: async (values, actions) => {},
+		validationSchema: productSchema,
+	});
 
 	const addExtra = () => {
 		const extraName = extraNameRef.current.value;
@@ -71,7 +87,12 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										className="input"
 										name="image"
 										id="image"
-										onChange={handleChangeEvent}
+										value={formik.values.image}
+										onChange={(e) => {
+											handleChangeEvent(e);
+											formik.handleChange(e);
+										}}
+										onBlur={formik.handleBlur}
 									/>
 									{previewUrl && (
 										<div className="relative">
@@ -85,6 +106,7 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 												onClick={() => {
 													setPreviewUrl(null);
 													setFile(null);
+													formik.values.image = '';
 												}}
 												className="btn btn-red btn--small btn--now absolute right-2 top-0"
 											>
@@ -93,6 +115,9 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										</div>
 									)}
 								</div>
+								{formik.touched.image && formik.errors.image ? (
+									<p className="u--alert">* {formik.errors.image}</p>
+								) : null}
 								<label htmlFor="name">Ürün Adı</label>
 								<input
 									required
@@ -100,7 +125,13 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 									className="input"
 									name="name"
 									id="name"
+									value={formik.values.name}
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
 								/>
+								{formik.touched.name && formik.errors.name ? (
+									<p className="u--alert">* {formik.errors.name}</p>
+								) : null}
 								<label htmlFor="name">Ürün Açıklama</label>
 								<textarea
 									required
@@ -108,11 +139,26 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 									name="description"
 									id="description"
 									row="2"
+									value={formik.values.description}
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
 								/>
+								{formik.touched.description &&
+								formik.errors.description ? (
+									<p className="u--alert">
+										* {formik.errors.description}
+									</p>
+								) : null}
 								<label className="mb-3" htmlFor="category">
 									Ürün Kategori
 								</label>
-								<select name="category" id="category">
+								<select
+									value={formik.values.category}
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									name="category"
+									id="category"
+								>
 									{categories.map((category) => {
 										return (
 											<option
@@ -124,6 +170,11 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										);
 									})}
 								</select>
+								{formik.touched.category && formik.errors.category ? (
+									<p className="u--alert">
+										* {formik.errors.category}
+									</p>
+								) : null}
 								<label htmlFor="price" className="mt-3">
 									Ürün Fiyatı
 								</label>
@@ -136,6 +187,9 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										name="smallPrice"
 										id="smallPrice"
 										placeholder="Küçük"
+										value={formik.values.smallPrice}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 									/>
 									<input
 										required
@@ -145,6 +199,9 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										name="mediumPrice"
 										id="mediumPrice"
 										placeholder="Orta"
+										value={formik.values.mediumPrice}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 									/>
 									<input
 										required
@@ -154,8 +211,28 @@ const AddProductModal = ({ isModalOpen, setIsModalOpen, categories }) => {
 										name="bigPrice"
 										id="bigPrice"
 										placeholder="Büyük"
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+										value={formik.values.bigPrice}
 									/>
 								</div>
+								{formik.touched.smallPrice &&
+								formik.errors.smallPrice ? (
+									<p className="u--alert">
+										* {formik.errors.smallPrice}
+									</p>
+								) : null}
+								{formik.touched.mediumPrice &&
+								formik.errors.mediumPrice ? (
+									<p className="u--alert">
+										* {formik.errors.mediumPrice}
+									</p>
+								) : null}
+								{formik.touched.bigPrice && formik.errors.bigPrice ? (
+									<p className="u--alert">
+										* {formik.errors.bigPrice}
+									</p>
+								) : null}
 								{extras.length > 0 && (
 									<>
 										<label>Ekstralar</label>
