@@ -5,8 +5,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import Link from 'next/link';
 import TitlePrimary from '../../ui/TitlePrimary';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 const SearchModal = () => {
 	const { isModalOpen } = useSelector((store) => store.searchModal);
+	const [products, setProducts] = useState([]);
+	const [search, setSearch] = useState('');
+
+	const getAllProducts = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/products`
+			);
+			if (response.status === 200) {
+				setProducts(response.data.data);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		if (search.length > 0) {
+			const filteredProducts = products.filter((product) =>
+				product.name.toLowerCase().includes(search.toLowerCase())
+			);
+			setProducts(filteredProducts);
+		} else {
+			getAllProducts();
+		}
+	}, [products, search]);
+
+	useEffect(() => {
+		getAllProducts();
+	}, []);
+
 	const dispatch = useDispatch();
 	return (
 		<div className={isModalOpen ? 'modal modal--active' : 'modal'}>
@@ -29,67 +62,38 @@ const SearchModal = () => {
 					</div>
 					<div className="modal__content">
 						<div className="modal__search">
-							<form>
-								<input type="text" placeholder="Ara..." />
-							</form>
+							<input
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+								type="text"
+								placeholder="Ara..."
+							/>
 						</div>
 						<ul>
-							<li>
-								<Link href="#">
-									<div className="modal__food-img">
-										<Image
-											src="/images/f1.png"
-											alt="food_name"
-											width={52}
-											height={52}
-										/>
-									</div>
-									<div className="modal__food-name">Yemek Adı</div>
-									<div className="modal__food-price">10 &#8378;</div>
-								</Link>
-							</li>
-							<li>
-								<Link href="#">
-									<div className="modal__food-img">
-										<Image
-											src="/images/f2.png"
-											alt="food_name"
-											width={52}
-											height={52}
-										/>
-									</div>
-									<div className="modal__food-name">Yemek Adı</div>
-									<div className="modal__food-price">10 &#8378;</div>
-								</Link>
-							</li>
-							<li>
-								<Link href="#">
-									<div className="modal__food-img">
-										<Image
-											src="/images/f3.png"
-											alt="food_name"
-											width={52}
-											height={52}
-										/>
-									</div>
-									<div className="modal__food-name">Yemek Adı</div>
-									<div className="modal__food-price">10 &#8378;</div>
-								</Link>
-							</li>
-							<li>
-								<Link href="#">
-									<div className="modal__food-img">
-										<Image
-											src="/images/f4.png"
-											alt="food_name"
-											width={52}
-											height={52}
-										/>
-									</div>
-									<div className="modal__food-name">Yemek Adı</div>
-									<div className="modal__food-price">10 &#8378;</div>
-								</Link>
-							</li>
+							{products.map((product) => {
+								return (
+									<li key={product._id}>
+										<Link href={`product/${product._id}`}>
+											<div className="modal__food-img">
+												<Image
+													src={product.image}
+													alt={product.name}
+													width={52}
+													height={52}
+												/>
+											</div>
+											<div className="modal__food-name">
+												{product.name}
+											</div>
+											<div className="modal__food-price">
+												{product.prices.map((price) => {
+													return price + '₺, ';
+												})}
+											</div>
+										</Link>
+									</li>
+								);
+							})}
 						</ul>
 					</div>
 				</div>
