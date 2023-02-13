@@ -110,7 +110,7 @@ const AdminProductsSection = ({ categories, productsList }) => {
 												</div>
 												<p className="table__info">
 													{product.prices.map((price) => {
-														if (price > 0) return price + ' TL,';
+														if (price > 0) return price + '₺,';
 													})}
 												</p>
 											</div>
@@ -121,9 +121,6 @@ const AdminProductsSection = ({ categories, productsList }) => {
 													Düzenle
 												</div>
 												<p className="table__info">
-													<button className="btn btn-primary">
-														Düzenle
-													</button>
 													<button
 														onClick={() =>
 															productDeleteHandle(product._id)

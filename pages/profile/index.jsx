@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-const ProfilePage = ({ user }) => {
+const ProfilePage = ({ user, orders }) => {
 	const [content, setContent] = React.useState('profile');
 	const { push } = useRouter();
 	const logout = () => {
@@ -97,7 +97,7 @@ const ProfilePage = ({ user }) => {
 				)}
 
 				{content === 'password' && <PasswordSection id={user._id} />}
-				{content === 'orders' && <OrdersSection />}
+				{content === 'orders' && <OrdersSection orders={orders} />}
 			</div>
 		</div>
 	);
@@ -117,9 +117,16 @@ export const getServerSideProps = async ({ req }) => {
 		`${process.env.NEXT_PUBLIC_API_URL}/users/${session?.user.name}`
 	);
 
+	const orders = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
+
+	const ordersList = orders.data.data.filter(
+		(order) => order.customer.id === user.data.data._id
+	);
+
 	return {
 		props: {
 			user: user ? user.data.data : null,
+			orders: ordersList,
 		},
 	};
 };

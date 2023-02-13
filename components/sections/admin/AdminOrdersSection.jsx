@@ -41,83 +41,97 @@ const AdminOrdersSection = ({ ordersList }) => {
 						<tr>
 							<th>Ürün</th>
 							<th>Müşteri</th>
-							<th>Fiyat</th>
+							<th>Tutar</th>
 							<th>Ödeme</th>
 							<th>Durum</th>
 							<th>Düzenle</th>
 						</tr>
 					</thead>
 					<tbody>
-						{orders.map((order) => {
-							return (
-								<tr key={order._id}>
-									<td>
-										<div className="table__cell">
-											<div className="table__inner_title">Ürün</div>
-											<p className="table__info">
-												{order.orders.map((item, index) => {
-													return <span key={index}>{item},</span>;
-												})}
-											</p>
-										</div>
-									</td>
-									<td>
-										<div className="table__cell">
-											<div className="table__inner_title">
-												Müşteri
+						{orders
+							.sort((a, b) => {
+								return new Date(b.createdAt) - new Date(a.createdAt);
+							})
+							.map((order) => {
+								return (
+									<tr key={order._id}>
+										<td>
+											<div className="table__cell">
+												<div className="table__inner_title">
+													Ürün
+												</div>
+												<p className="table__info">
+													{order.orders.map((item, index) => {
+														return (
+															<span key={index}>{item},</span>
+														);
+													})}
+												</p>
 											</div>
-											<p className="table__info">
-												{order.customer.name}
-											</p>
-										</div>
-									</td>
-									<td>
-										<div className="table__cell">
-											<div className="table__inner_title">Fiyat</div>
-											<p className="table__info">{order.total}</p>
-										</div>
-									</td>
-									<td>
-										<div className="table__cell">
-											<div className="table__inner_title">Ödeme</div>
-											<p className="table__info">Nakit</p>
-										</div>
-									</td>
-									<td>
-										<div className="table__cell">
-											<div className="table__inner_title">
-												Durumu
+										</td>
+										<td>
+											<div className="table__cell">
+												<div className="table__inner_title">
+													Müşteri
+												</div>
+												<p className="table__info">
+													{order.customer.name}
+												</p>
 											</div>
-											<p className="table__info">
-												{order.status === 0 && 'Ödeme Alındı'}
-												{order.status === 1 && 'Hazırlanıyor'}
-												{order.status === 2 && 'Yolda'}
-												{order.status === 3 && 'Teslim Edildi'}
-											</p>
-										</div>
-									</td>
-									<td>
-										<div className="table__cell">
-											<p className="table__info">
-												{order.status < 3 && (
-													<button
-														onClick={() =>
-															orderStatusPrev(
-																order._id,
-																order.status
-															)
-														}
-														className="btn btn-primary"
-													>
-														İlerlet
-													</button>
-												)}
-											</p>
-										</div>
-									</td>
-								</tr>
-							);
-						})}
+										</td>
+										<td>
+											<div className="table__cell">
+												<div className="table__inner_title">
+													Tutar
+												</div>
+												<p className="table__info">
+													{order.total}₺
+												</p>
+											</div>
+										</td>
+										<td>
+											<div className="table__cell">
+												<div className="table__inner_title">
+													Ödeme
+												</div>
+												<p className="table__info">Nakit</p>
+											</div>
+										</td>
+										<td>
+											<div className="table__cell">
+												<div className="table__inner_title">
+													Durumu
+												</div>
+												<p className="table__info">
+													{order.status === 0 && 'Ödeme Alındı'}
+													{order.status === 1 && 'Hazırlanıyor'}
+													{order.status === 2 && 'Yolda'}
+													{order.status === 3 && 'Teslim Edildi'}
+												</p>
+											</div>
+										</td>
+										<td>
+											<div className="table__cell">
+												<p className="table__info">
+													{order.status < 3 && (
+														<button
+															onClick={() =>
+																orderStatusPrev(
+																	order._id,
+																	order.status
+																)
+															}
+															className="btn btn-primary"
+														>
+															İlerlet
+														</button>
+													)}
+												</p>
+											</div>
+										</td>
+									</tr>
+								);
+							})}
 					</tbody>
 				</table>
 			</div>

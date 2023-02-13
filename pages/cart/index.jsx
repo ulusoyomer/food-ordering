@@ -34,7 +34,7 @@ const CartPage = ({ usersList }) => {
 				total: totalPrice,
 				method: 0,
 				status: 1,
-				orders: cartItems.map((item) => item.name),
+				orders: cartItems.map((item) => item.name + ' x' + item.amount),
 			});
 		}
 	}, [cartItems, session, totalPrice, user, usersList]);

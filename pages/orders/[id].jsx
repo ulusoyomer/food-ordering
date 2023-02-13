@@ -47,7 +47,7 @@ const OrderPage = ({ order }) => {
 						<td>
 							<div className="table__cell">
 								<div className="table__inner_title">Toplam</div>
-								<p className="table__info">{order.total}</p>
+								<p className="table__info">{order.total}₺</p>
 							</div>
 						</td>
 					</tr>
