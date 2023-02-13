@@ -33,7 +33,7 @@ const CartPage = ({ usersList }) => {
 				address: user?.address ?? 'No Address',
 				total: totalPrice,
 				method: 0,
-				status: 0,
+				status: 1,
 				orders: cartItems.map((item) => item.name),
 			});
 		}

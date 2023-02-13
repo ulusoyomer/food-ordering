@@ -45,6 +45,24 @@ const handler = async (req, res) => {
 					.status(404)
 					.json({ success: false, message: error.message });
 			}
+		case 'PUT':
+			try {
+				const order = await Order.findByIdAndUpdate(id, req.body, {
+					new: true,
+				});
+				if (!order) {
+					return res
+						.status(404)
+						.json({ success: false, message: 'Sipariş Bulunamadı' });
+				}
+				return res.status(200).json({
+					success: true,
+					data: order,
+					message: 'Sipariş Bilgileri Güncellendi',
+				});
+			} catch (error) {
+				return res.status(400).json({ success: false });
+			}
 		default:
 			res.setHeader('Allow', ['DELETE', 'GET']);
 			return res.status(405).json({ success: false });

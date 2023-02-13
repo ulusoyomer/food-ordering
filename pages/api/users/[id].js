@@ -45,29 +45,41 @@ const handler = async (req, res) => {
 					return res
 						.status(404)
 						.json({ success: false, message: 'Kullanıcı Bulunamadı' });
-				}
-				let isMatch = await bcrypt.compare(
-					req.body.password,
-					user.password
-				);
-				isMatch = req.body.newPassword === req.body.newPasswordConfirm;
-				if (!isMatch) {
+				} else if (
+					req.body.password &&
+					req.body.newPassword &&
+					req.body.newPasswordConfirm
+				) {
+					let isMatch = await bcrypt.compare(
+						req.body.password,
+						user.password
+					);
+					isMatch = req.body.newPassword === req.body.newPasswordConfirm;
+					if (!isMatch) {
+						return res.status(400).json({
+							success: false,
+							message: 'Eski şifre hatalı',
+						});
+					}
+					const salt = await bcrypt.genSalt(10);
+					req.body.password = await bcrypt.hash(
+						req.body.newPassword,
+						salt
+					);
+					user.password = req.body.password;
+					user.save((err, result) => {
+						if (err) throw err;
+						return res.status(200).json({
+							success: true,
+							data: result,
+							message: 'Şifre Güncellendi',
+						});
+					});
+				} else {
 					return res.status(400).json({
 						success: false,
-						message: 'Eski şifre hatalı',
 					});
 				}
-				const salt = await bcrypt.genSalt(10);
-				req.body.password = await bcrypt.hash(req.body.newPassword, salt);
-				user.password = req.body.password;
-				user.save((err, result) => {
-					if (err) throw err;
-					return res.status(200).json({
-						success: true,
-						data: result,
-						message: 'Şifre Güncellendi',
-					});
-				});
 			} catch (error) {
 				return res.status(400).json({ success: false });
 			}
