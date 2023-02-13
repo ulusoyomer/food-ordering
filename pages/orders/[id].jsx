@@ -5,7 +5,8 @@ import {
 	MdFastfood,
 	MdOutlineDoneAll,
 } from 'react-icons/md';
-const OrderPage = () => {
+import axios from 'axios';
+const OrderPage = ({ order }) => {
 	return (
 		<div className="cart">
 			<TitlePrimary>Siparişleriniz</TitlePrimary>
@@ -24,29 +25,29 @@ const OrderPage = () => {
 							<div className="table__cell">
 								<div className="table__inner_title">S. NO</div>
 
-								<p className="table__info">138</p>
+								<p className="table__info">{order._id}</p>
 							</div>
 						</td>
 						<td>
 							<div className="table__cell">
 								<div className="table__inner_title">Sipariş</div>
-								<p className="table__info">Lorem ipsum dolor sit</p>
-							</div>
-						</td>
-						<td>
-							<div className="table__cell">
-								<div className="table__inner_title">Adres</div>
 								<p className="table__info">
-									Lorem ipsum dolor sit amet consectetur adipisicing
-									elit. Cumque voluptatibus quas illum, veniam aperiam
-									fuga quod ut sequi deserunt quidem.
+									{order.orders.map((item, index) => {
+										return <span key={index}>{item},</span>;
+									})}
 								</p>
 							</div>
 						</td>
 						<td>
 							<div className="table__cell">
+								<div className="table__inner_title">Adres</div>
+								<p className="table__info">{order.address}</p>
+							</div>
+						</td>
+						<td>
+							<div className="table__cell">
 								<div className="table__inner_title">Toplam</div>
-								<p className="table__info">30 $</p>
+								<p className="table__info">{order.total}</p>
 							</div>
 						</td>
 					</tr>
@@ -54,19 +55,43 @@ const OrderPage = () => {
 			</table>
 			<TitlePrimary className="mt-6">Sipariş Durumu</TitlePrimary>
 			<div className="cart__status">
-				<div className="cart__status_item animate-pulse">
+				<div
+					className={
+						order.status === 0
+							? 'cart__status_item animate-pulse'
+							: 'cart__status_item '
+					}
+				>
 					<MdPayment className="cart__status_item--icon" />
 					<p className="cart__status--text">Ödeme Kabul Edildi</p>
 				</div>
-				<div className="cart__status_item">
+				<div
+					className={
+						order.status === 1
+							? 'cart__status_item animate-pulse'
+							: 'cart__status_item '
+					}
+				>
 					<MdFastfood className="cart__status_item--icon" />
 					<p className="cart__status--text">Hazırlanıyor</p>
 				</div>
-				<div className="cart__status_item">
+				<div
+					className={
+						order.status === 2
+							? 'cart__status_item animate-pulse'
+							: 'cart__status_item '
+					}
+				>
 					<MdDeliveryDining className="cart__status_item--icon" />
 					<p className="cart__status--text">Yolda</p>
 				</div>
-				<div className="cart__status_item">
+				<div
+					className={
+						order.status === 3
+							? 'cart__status_item animate-pulse'
+							: 'cart__status_item '
+					}
+				>
 					<MdOutlineDoneAll className="cart__status_item--icon" />
 					<p className="cart__status--text">Teslim Edildi</p>
 				</div>
@@ -74,4 +99,22 @@ const OrderPage = () => {
 		</div>
 	);
 };
+
+export const getServerSideProps = async ({ params: { id } }) => {
+	try {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/orders/${id}`
+		);
+		return {
+			props: {
+				order: response.data.data,
+			},
+		};
+	} catch (error) {
+		return {
+			props: {},
+		};
+	}
+};
+
 export default OrderPage;

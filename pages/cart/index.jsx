@@ -1,15 +1,39 @@
 import TitlePrimary from '../../components/ui/TitlePrimary';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart } from '@/redux/reducers/cartSlice';
+import { removeFromCart, resetCart } from '@/redux/reducers/cartSlice';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
-const discount = 10;
+const discount = 0;
 
-const CartPage = () => {
+const CartPage = ({ usersList }) => {
 	const { cartItems } = useSelector((state) => state.cart);
 	const [totalPrice, setTotalPrice] = useState(0);
+	const { data: session } = useSession();
+	const [user, setUser] = useState(null);
+	const [order, setOrder] = useState({});
 	const dispatch = useDispatch();
+
+	const router = useRouter();
+
+	useEffect(() => {
+		if (session) {
+			const u = usersList.find((user) => user._id === session.user.name);
+			setUser(u);
+			setOrder({
+				customer: user?._id,
+				address: user?.address ?? 'No Address',
+				total: totalPrice,
+				method: 0,
+				status: 0,
+				orders: cartItems.map((item) => item.name),
+			});
+		}
+	}, [cartItems, session, totalPrice, user, usersList]);
 
 	useEffect(() => {
 		const total = cartItems.reduce(
@@ -18,6 +42,35 @@ const CartPage = () => {
 		);
 		setTotalPrice(total);
 	}, [cartItems]);
+
+	const createOrder = async () => {
+		try {
+			if (session) {
+				if (confirm('Siparişinizi Onaylıyormusunuz ?')) {
+					const res = await axios.post(
+						`${process.env.NEXT_PUBLIC_API_URL}/orders`,
+						order
+					);
+					if (res.status === 201) {
+						router.push(`/orders/${res.data.data._id}`);
+						dispatch(resetCart());
+						toast.success('Siparişiniz Oluşturuldu. Teşekkürler. :)', {
+							position: 'top-right',
+							autoClose: 1000,
+						});
+					}
+				}
+			} else {
+				toast.error('Lütfen Giriş Yapınız. :(', {
+					position: 'top-right',
+				});
+			}
+		} catch (error) {
+			toast.error('Siparişiniz Oluşturulamadı Tekrar Deneyiniz. :(', {
+				position: 'top-right',
+			});
+		}
+	};
 
 	return (
 		<div className="cart">
@@ -136,13 +189,18 @@ const CartPage = () => {
 						</div>
 						<div className="cart__payment--text">
 							Toplam :
-							{parseFloat(
-								totalPrice - (totalPrice * discount) / 100
-							).toFixed(2)}{' '}
+							{discount > 0
+								? parseFloat(
+										totalPrice - (totalPrice * discount) / 100
+								  ).toFixed(2)
+								: totalPrice}{' '}
 							₺
 						</div>
 						<div>
-							<button className="btn btn-secondary--rounded">
+							<button
+								onClick={createOrder}
+								className="btn btn-secondary--rounded"
+							>
 								Ödeme Yap
 							</button>
 						</div>
@@ -156,4 +214,20 @@ const CartPage = () => {
 		</div>
 	);
 };
+
+export const getServerSideProps = async (context) => {
+	try {
+		const catagoriesResponse = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/users`
+		);
+		return {
+			props: {
+				usersList: catagoriesResponse.data.data ?? [],
+			},
+		};
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export default CartPage;

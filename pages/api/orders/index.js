@@ -22,7 +22,9 @@ const handler = async (req, res) => {
 					.status(201)
 					.json({ success: true, data: order, message: 'Ürün Eklendi' });
 			} catch (error) {
-				return res(400).json({ success: false, message: error.message });
+				return res
+					.status(400)
+					.json({ success: false, message: error.message });
 			}
 		default:
 			res.setHeader('Allow', ['GET', 'POST']);
