@@ -19,13 +19,17 @@ const CartPage = ({ usersList }) => {
 	const dispatch = useDispatch();
 
 	const router = useRouter();
+	console.log(order);
 
 	useEffect(() => {
 		if (session) {
 			const u = usersList.find((user) => user._id === session.user.name);
 			setUser(u);
 			setOrder({
-				customer: user?._id,
+				customer: {
+					id: user?._id,
+					name: user?.name,
+				},
 				address: user?.address ?? 'No Address',
 				total: totalPrice,
 				method: 0,

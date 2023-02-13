@@ -1,10 +1,10 @@
 import { FaWindowClose } from 'react-icons/fa';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useState, useEffect, useRef } from 'react';
-import TitlePrimary from '../../ui/TitlePrimary';
+import TitlePrimary from '../../../ui/TitlePrimary';
 import Image from 'next/image';
 import { useFormik } from 'formik';
-import { productSchema } from '../../../schema/productSchema';
+import { productSchema } from '../../../../schema/productSchema';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 const AddProductModal = ({

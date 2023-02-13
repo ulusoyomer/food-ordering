@@ -10,15 +10,15 @@ import { BiCategory } from 'react-icons/bi';
 
 import { IoSettingsOutline } from 'react-icons/io5';
 
-import AdminProductsSection from '../../components/sections/products/AdminProductsSection';
-import AdminOrdersSection from '../../components/sections/AdminOrdersSection';
-import AdminCategoriesSection from '../../components/sections/AdminCategoriesSection';
-import AdminSettingsSection from '../../components/sections/AdminSettingsSection';
+import AdminProductsSection from '../../components/sections/admin/product/AdminProductsSection';
+import AdminOrdersSection from '../../components/sections/admin/AdminOrdersSection';
+import AdminCategoriesSection from '../../components/sections/admin/AdminCategoriesSection';
+import AdminSettingsSection from '../../components/sections/admin/AdminSettingsSection';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const AdminProfilePage = ({ categoryList, productsList }) => {
+const AdminProfilePage = ({ categoryList, productsList, ordersList }) => {
 	const [content, setContent] = React.useState('products');
 	const { push } = useRouter();
 	const [categories, setCategories] = React.useState(categoryList);
@@ -115,7 +115,9 @@ const AdminProfilePage = ({ categoryList, productsList }) => {
 						productsList={productsList}
 					/>
 				)}
-				{content === 'orders' && <AdminOrdersSection />}
+				{content === 'orders' && (
+					<AdminOrdersSection ordersList={ordersList} />
+				)}
 				{content === 'categories' && (
 					<AdminCategoriesSection
 						categories={categories}
@@ -145,10 +147,14 @@ export const getServerSideProps = async (context) => {
 			const productsResponse = await axios.get(
 				`${process.env.NEXT_PUBLIC_API_URL}/products`
 			);
+			const ordersResponse = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/orders`
+			);
 			return {
 				props: {
 					categoryList: catagoriesResponse.data.data ?? [],
 					productsList: productsResponse.data.data ?? [],
+					ordersList: ordersResponse.data.data ?? [],
 				},
 			};
 		} catch (error) {

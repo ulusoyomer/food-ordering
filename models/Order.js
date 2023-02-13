@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const OrderSchema = new mongoose.Schema(
 	{
 		customer: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Object,
 			required: true,
 		},
 		address: {
@@ -17,10 +17,10 @@ const OrderSchema = new mongoose.Schema(
 		},
 		status: {
 			type: Number,
+			required: true,
 		},
 		method: {
 			type: Number,
-			required: true,
 		},
 		orders: {
 			type: [String],
