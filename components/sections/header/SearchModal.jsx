@@ -7,10 +7,12 @@ import Link from 'next/link';
 import TitlePrimary from '../../ui/TitlePrimary';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import ClipLoader from 'react-spinners/ClipLoader';
 const SearchModal = () => {
 	const { isModalOpen } = useSelector((store) => store.searchModal);
 	const [products, setProducts] = useState([]);
 	const [search, setSearch] = useState('');
+	const [loading, setLoading] = useState(true);
 
 	const getAllProducts = async () => {
 		try {
@@ -19,13 +21,14 @@ const SearchModal = () => {
 			);
 			if (response.status === 200) {
 				setProducts(response.data.data);
+				setLoading(false);
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	useEffect(() => {
+	const filterProducts = () => {
 		if (search.length > 0) {
 			const filteredProducts = products.filter((product) =>
 				product.name.toLowerCase().includes(search.toLowerCase())
@@ -34,10 +37,18 @@ const SearchModal = () => {
 		} else {
 			getAllProducts();
 		}
-	}, [products, search]);
+	};
 
 	useEffect(() => {
+		setLoading(true);
+		filterProducts();
+		setLoading(false);
+	}, [search]);
+
+	useEffect(() => {
+		setLoading(true);
 		getAllProducts();
+		console.log('Hello');
 	}, []);
 
 	const dispatch = useDispatch();
@@ -70,30 +81,34 @@ const SearchModal = () => {
 							/>
 						</div>
 						<ul>
-							{products.map((product) => {
-								return (
-									<li key={product._id}>
-										<Link href={`product/${product._id}`}>
-											<div className="modal__food-img">
-												<Image
-													src={product.image}
-													alt={product.name}
-													width={52}
-													height={52}
-												/>
-											</div>
-											<div className="modal__food-name">
-												{product.name}
-											</div>
-											<div className="modal__food-price">
-												{product.prices.map((price) => {
-													return price + '₺, ';
-												})}
-											</div>
-										</Link>
-									</li>
-								);
-							})}
+							{loading ? (
+								<ClipLoader color="#d8b00f"></ClipLoader>
+							) : (
+								products.map((product) => {
+									return (
+										<li key={product._id}>
+											<Link href={`product/${product._id}`}>
+												<div className="modal__food-img">
+													<Image
+														src={product.image}
+														alt={product.name}
+														width={52}
+														height={52}
+													/>
+												</div>
+												<div className="modal__food-name">
+													{product.name}
+												</div>
+												<div className="modal__food-price">
+													{product.prices.map((price) => {
+														return price + '₺, ';
+													})}
+												</div>
+											</Link>
+										</li>
+									);
+								})
+							)}
 						</ul>
 					</div>
 				</div>
