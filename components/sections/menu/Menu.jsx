@@ -5,6 +5,7 @@ import MenuItem from './MenuItem';
 const Menu = ({ categoryList, productsList }) => {
 	const [activeCategory, setActiveCategory] = useState(0);
 	const [activeProducts, setActiveProducts] = useState(productsList);
+	const [productLength, setProductLength] = useState(4);
 
 	const handleCategory = (index) => {
 		setActiveCategory(index);
@@ -53,15 +54,22 @@ const Menu = ({ categoryList, productsList }) => {
 					})}
 				</div>
 				<div className="menu__foods">
-					{activeProducts.map((product) => {
+					{activeProducts.slice(0, productLength).map((product) => {
 						return <MenuItem key={product._id} {...product} />;
 					})}
 				</div>
-				<div className="menu__more">
-					<button className="btn btn-secondary--rounded btn--bigger ">
-						Daha Fazla
-					</button>
-				</div>
+				{productLength < activeProducts.length && (
+					<div className="menu__more">
+						<button
+							onClick={() => {
+								setProductLength(productLength + 4);
+							}}
+							className="btn btn-secondary--rounded btn--bigger "
+						>
+							Daha Fazla
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);

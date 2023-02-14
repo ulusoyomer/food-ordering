@@ -25,7 +25,9 @@ const OrderPage = ({ order }) => {
 							<div className="table__cell">
 								<div className="table__inner_title">S. NO</div>
 
-								<p className="table__info">{order._id}</p>
+								<p className="table__info">
+									{order._id.substr(0, 8)}...
+								</p>
 							</div>
 						</td>
 						<td>

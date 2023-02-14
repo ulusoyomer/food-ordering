@@ -90,7 +90,9 @@ const AdminProductsSection = ({ categories, productsList }) => {
 												<div className="table__inner_title">
 													Ü. No
 												</div>
-												<p className="table__info">{product._id}</p>
+												<p className="table__info">
+													{product._id.substr(0, 8)}...
+												</p>
 											</div>
 										</td>
 										<td>

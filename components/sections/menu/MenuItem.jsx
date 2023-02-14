@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@/redux/reducers/cartSlice';
 const MenuItem = ({ image, name, prices, description, _id }) => {
+	const dispatch = useDispatch();
 	return (
 		<div className="menu__item">
 			<Link href={`/product/${_id}`}>
@@ -33,6 +36,19 @@ const MenuItem = ({ image, name, prices, description, _id }) => {
 					<button
 						type="button"
 						className="btn btn-primary btn--full-rounded"
+						onClick={() => {
+							dispatch(
+								addToCart({
+									id: _id,
+									name,
+									image,
+									price: prices[1],
+									amount: 1,
+									size: 0,
+									extra: [],
+								})
+							);
+						}}
 					>
 						<FaShoppingCart />
 					</button>

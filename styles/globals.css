@@ -124,9 +124,6 @@
 .header .header__menu--list .header__menu--item a {
 	@apply font-poppins uppercase text-xl inline-block p-2 hover:text-secondary transition-colors duration-300 ease-linear border-b-2 border-secondary max-lg:text-sm;
 }
-.header__menu--item--active {
-	@apply text-secondary;
-}
 
 .header__buttons {
 	@apply min-h-[6.5rem] flex items-center gap-x-5;
@@ -134,12 +131,18 @@
 .header__buttons .header_buttons--link svg {
 	@apply text-xl  text-light hover:text-secondary transition-colors duration-300 ease-linear max-lg:text-sm;
 }
+.header__buttons .header_buttons--link svg.item-active {
+	@apply text-secondary;
+}
 .header__order {
 	@apply max-sm:hidden;
 }
 
 .header__toggle {
 	@apply hidden max-sm:block mr-3;
+}
+.header__menu--item--active {
+	@apply text-secondary;
 }
 
 .header__toggle svg {
@@ -558,7 +561,7 @@ tbody tr td:last-child .table__inner_title {
 }
 
 .table__info {
-	@apply text-zinc-700 max-sm:text-xl mx-5 text-xl font-poppins font-medium flex flex-1 items-center justify-center gap-x-5 my-5;
+	@apply text-zinc-700 max-sm:text-sm mx-5 text-xl font-poppins font-medium flex flex-1 items-center justify-center gap-x-5 my-5 max-sm:flex-wrap;
 }
 .profile__content .table__info {
 	@apply text-lg;

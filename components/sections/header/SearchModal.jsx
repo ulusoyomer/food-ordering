@@ -15,6 +15,7 @@ const SearchModal = () => {
 	const [loading, setLoading] = useState(true);
 
 	const getAllProducts = async () => {
+		setLoading(true);
 		try {
 			const response = await axios.get(
 				`${process.env.NEXT_PUBLIC_API_URL}/products`
@@ -29,6 +30,7 @@ const SearchModal = () => {
 	};
 
 	const filterProducts = () => {
+		setLoading(true);
 		if (search.length > 0) {
 			const filteredProducts = products.filter((product) =>
 				product.name.toLowerCase().includes(search.toLowerCase())
@@ -37,16 +39,14 @@ const SearchModal = () => {
 		} else {
 			getAllProducts();
 		}
+		setLoading(false);
 	};
 
 	useEffect(() => {
-		setLoading(true);
 		filterProducts();
-		setLoading(false);
 	}, [search]);
 
 	useEffect(() => {
-		setLoading(true);
 		getAllProducts();
 	}, []);
 
@@ -86,7 +86,10 @@ const SearchModal = () => {
 								products.map((product) => {
 									return (
 										<li key={product._id}>
-											<Link href={`product/${product._id}`}>
+											<Link
+												onClick={() => dispatch(closeModal())}
+												href={`${process.env.NEXT_PUBLIC_SITE_URL}/product/${product._id}`}
+											>
 												<div className="modal__food-img">
 													<Image
 														src={product.image}

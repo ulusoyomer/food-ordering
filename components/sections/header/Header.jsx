@@ -75,7 +75,15 @@ const Header = () => {
 							className="header_buttons--link cursor-pointer"
 							href="/auth/login"
 						>
-							<FaUserAlt />
+							<FaUserAlt
+								className={
+									route.pathname === '/auth/login' ||
+									route.pathname === '/auth/register' ||
+									route.pathname === '/profile'
+										? 'item-active'
+										: ''
+								}
+							/>
 						</Link>
 						<Link
 							className="header_buttons--link relative cursor-pointer"
@@ -84,7 +92,11 @@ const Header = () => {
 							<div className="text-xs rounded-full w-5 h-5 absolute bg-red-600 text-white -right-3 -top-3 text-center flex items-center justify-center">
 								{piece}
 							</div>
-							<FaShoppingCart />
+							<FaShoppingCart
+								className={
+									route.pathname === '/cart' ? 'item-active' : ''
+								}
+							/>
 						</Link>
 						<button
 							onClick={() => dispatch(openModal())}

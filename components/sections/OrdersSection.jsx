@@ -31,7 +31,7 @@ const OrdersSection = ({ orders }) => {
 												</div>
 												<p className="table__info">
 													<Link href={`orders/${order._id}`}>
-														{order._id}
+														{order._id.substring(0, 8)}...
 													</Link>
 												</p>
 											</div>

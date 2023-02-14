@@ -211,7 +211,7 @@ const CartPage = ({ usersList }) => {
 					</div>
 				</>
 			) : (
-				<div className="text-center text-red-700 text-poppins text-4xl my-8">
+				<div className="text-center text-red-700 text-poppins text-4xl my-8 max-sm:text-2xl">
 					Sepetinizde Ürün Bulunmamaktadır.
 				</div>
 			)}
