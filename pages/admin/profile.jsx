@@ -18,7 +18,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const AdminProfilePage = ({ categoryList, productsList, ordersList }) => {
+const AdminProfilePage = ({
+	categoryList,
+	productsList,
+	ordersList,
+	settings,
+}) => {
 	const [content, setContent] = React.useState('products');
 	const { push } = useRouter();
 	const [categories, setCategories] = React.useState(categoryList);
@@ -124,7 +129,9 @@ const AdminProfilePage = ({ categoryList, productsList, ordersList }) => {
 						setCategories={setCategories}
 					/>
 				)}
-				{content === 'settings' && <AdminSettingsSection />}
+				{content === 'settings' && (
+					<AdminSettingsSection settings={settings} />
+				)}
 			</div>
 		</div>
 	);
@@ -150,11 +157,15 @@ export const getServerSideProps = async (context) => {
 			const ordersResponse = await axios.get(
 				`${process.env.NEXT_PUBLIC_API_URL}/orders`
 			);
+			const footerResponse = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/footer`
+			);
 			return {
 				props: {
 					categoryList: catagoriesResponse.data.data ?? [],
 					productsList: productsResponse.data.data ?? [],
 					ordersList: ordersResponse.data.data ?? [],
+					settings: footerResponse.data.data[0] ?? [],
 				},
 			};
 		} catch (error) {

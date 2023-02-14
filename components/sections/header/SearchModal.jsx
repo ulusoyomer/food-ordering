@@ -48,7 +48,6 @@ const SearchModal = () => {
 	useEffect(() => {
 		setLoading(true);
 		getAllProducts();
-		console.log('Hello');
 	}, []);
 
 	const dispatch = useDispatch();

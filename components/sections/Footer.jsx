@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 import {
 	FaPhoneAlt,
@@ -9,49 +8,70 @@ import {
 	FaInstagram,
 	FaYoutube,
 } from 'react-icons/fa';
-import TitlePrimary from '../ui/TitlePrimary';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const Footer = () => {
+	const [footer, setFooter] = useState({});
+
+	const getFooter = async () => {
+		const response = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/footer`
+		);
+		if (response.data.success) {
+			setFooter(response.data.data[0]);
+		}
+	};
+
+	useEffect(() => {
+		getFooter();
+	}, []);
+
 	return (
 		<>
 			<div className="footer">
 				<div className="footer__contact">
 					<h2>İletişim Bilgileri</h2>
-					<Link href="tel:+05322222222">
-						<FaPhoneAlt /> 0532 123 45 67
-					</Link>
-					<Link href="https://maps.google.com/maps?q=New+York">
+					<a href={`tel:${footer.phone}`}>
+						<FaPhoneAlt /> {footer.phone}
+					</a>
+					<a href={footer.address}>
 						<FaSearchLocation /> İstanbul, Türkiye
-					</Link>
-					<Link href="mailto:someone@example.com">
-						<FaEnvelope /> asdasf@asdasd.com
-					</Link>
+					</a>
+					<a href={`mailto:${footer.email}`}>
+						<FaEnvelope /> {footer.email}
+					</a>
 				</div>
 				<div className="footer__social">
 					<h2>Spico</h2>
-					<p>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-						Quos, porro ullam nesciunt placeat ex.
-					</p>
+					<p>{footer.description}</p>
 					<div className="footer__social--icons">
-						<Link href="https://www.facebook.com/">
-							<FaFacebook />
-						</Link>
-						<Link href="https://www.instagram.com/">
-							<FaInstagram />
-						</Link>
-						<Link href="https://twitter.com/">
-							<FaTwitter />
-						</Link>
-						<Link href="https://www.youtube.com/">
-							<FaYoutube />
-						</Link>
+						{footer?.facebook && (
+							<a href={footer.facebook}>
+								<FaFacebook />
+							</a>
+						)}
+						{footer?.instagram && (
+							<a href={footer.instagram}>
+								<FaInstagram />
+							</a>
+						)}
+						{footer?.twitter && (
+							<a href={footer.twitter}>
+								<FaTwitter />
+							</a>
+						)}
+						{footer?.youtube && (
+							<a href={footer.youtube}>
+								<FaYoutube />
+							</a>
+						)}
 					</div>
 				</div>
 				<div className="footer__hours">
 					<h2>Açılış Saatleri</h2>
-					<p>Hafta içi: 09:00 - 18:00</p>
-					<p>Hafta sonu: Kapalı</p>
+					<p>{footer.openDays}</p>
+					<p>{footer.openHours}</p>
 				</div>
 				<div className="w-full mt-10 mb-1">
 					© All Right Reserved By Spicyo Restaurant Cafe
